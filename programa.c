@@ -9,6 +9,8 @@
 
 void  llenar(int *red,int n,float prob); //llena con 1 y ceros con prob p de ser 1. (falta programar)
 
+void mostrar(int *red, int n); // muestra la matriz en la pantalla
+
 int   hoshen(int *red,int n);			// ya hecho
 
 int   actualizar(int *red,int *clase,int s,int frag);  //creo q actualiza la red, y devuelve un numero que seria la etiqueta para seguir usando (o la cambia)
@@ -86,8 +88,11 @@ int hoshen(int *red,int n)
 
   s1=0;	//definimos que el valor a izq de la posicion va a ser cero (no existe, no hay periodicidad)
   frag=2;
-  if (*red) frag=actualizar(red,clase,s1,frag); // "si el primer valor de la red es TRUE, es decir 1, entonces hacer que frag, el numero de etiqueta temporal, sea el valor que venia teniendo si red es 1, o diferente es 0, como ingresan el la misma posicion que esta, entonces es el mismo.
-  
+  if (*red) frag=actualizar(red,clase,s1,frag); // mete la posición red, es decir la posicion primera, NO su valor y asi sé qué posición estoy asignando, asi como la clase, el valor de la posicion en la izquierda y frag, la etiqueta que voy actualizando
+printf(clase);
+mostrar(*red,n);
+printf("primer elemento\n");  
+getchar();   
   // primera fila de la red
 
   for(i=1;i<n;i++) 
@@ -96,9 +101,13 @@ int hoshen(int *red,int n)
          {
            s1=*(red+i-1);  //etiqueta que vamos a poner despues a este cluster
            frag=actualizar(red+i,clase,s1,frag);//ponerle el numero de clase a la subir a la posicion de red si el de la derecha es 0 subir la clase usada, es decir subir el return en 1
+
+		printf("Primer fila\n");  
+		mostrar(*red,n);	
+		getchar(); 
          }
     }
-  
+
 
   // el resto de las filas 
 
@@ -111,7 +120,12 @@ int hoshen(int *red,int n)
          {
            s1=*(red+i-n); 
            frag=actualizar(red+i,clase,s1,frag);
+	
+		printf("Primer fila\n");  
+		mostrar(*red,n);	
+		getchar();
          }
+	//aca comienza con el codigo en todas las filas
 
       for(j=1;j<n;j++)
 	if (*(red+i+j))
@@ -121,17 +135,21 @@ int hoshen(int *red,int n)
 
 	    if (s1*s2>0)
 	      {
-		etiqueta_falsa(red+i+j,clase,s1,s2);
+		//etiqueta_falsa(red+i+j,clase,s1,s2);
 	      }
 	    else 
 	      { if (s1!=0) frag=actualizar(red+i+j,clase,s1,frag);
 	        else       frag=actualizar(red+i+j,clase,s2,frag);
+		
+		printf("Primer fila\n");  
+		mostrar(*red,n);	
+		getchar();
 	      }
 	  }
     }
 
 
-  corregir_etiqueta(red,clase,n);
+  //corregir_etiqueta(red,clase,n);
 
   free(clase):
 
@@ -142,7 +160,7 @@ void actualizar (int *red,int *clase,int s,int frag)
 void  llenar(int *red,int n,float prob)//toma la red que le ponen, el lado y la probabilidad que va a usar en las posiciones.
 {
 	float r
-	int  i,j,*red
+	int  i,j
 	for (i=0;i<n;i++){
 		for(j=0; j<n; j++){
 			r=srand(time(NULL));
@@ -156,7 +174,26 @@ void  llenar(int *red,int n,float prob)//toma la red que le ponen, el lado y la 
 	}
 }
 
-int actualizar (int *red,int *clase,int s,int frag)
+void mostrar(int *red, int n)
 {
-	*red=s
+	for (i=0;i<n;i++){
+		for (j=0;j<n;j++){
+			printf(*(red+i*n+j));
+		}
+	}
+}
+
+int actualizar (int *red,int *clase,int s,int frag)
+{	
+	int t
+	t=red
+	*red=frag
+	if (s=0)
+	{
+		*(clase+t)=frag;
+		frag++;
+	}
+}
+	
+	 
 	
