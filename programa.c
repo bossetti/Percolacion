@@ -19,14 +19,15 @@ int   hoshen(int *red,int n);			// hace el algoritmo de reemplazar todo por etiq
 int   actualizar(int *red,int *reclase,int s,int frag);  //actualiza clase y la va construyendo para que tenga clusters de etiquetas
 
 int  etiqueta_falsa(int *red,int *clase,int s1,int s2, int i, int n); //Voy a usarla para corregir todo el grupo superior que estaría conectado a este cluster que se une
+//int quick_etiqueta(int *red,int *clase,int s1,int s2, int i, int n);//esto toma s1 y s2 y los asocia permanentemente, de modo de luego ser usada para percolacion, que chequeara teniendo en cuenta que una etiqueta es lo mismo que la otra.
 
 //void  corregir_etiqueta(int *red,int *clase,int n); // no la voy a usar
 
-//int   percola(int *red,int n); //esta si! revisa si el cluster percola o no.
+int   percola(int *red,int n, int frag); //esta si! revisa si el cluster percola o no.
 
 int main(int argc,char *argv[])
 {
-  int    i,j,*red,n,z;
+  int    i,j,*red,n,z, frag;
   float  prob,denominador;
 
   n=N;
@@ -43,23 +44,25 @@ int main(int argc,char *argv[])
 
 
   for(i=0;i<z;i++) 
-	{
-     prob=0.5;
+  {
+   prob=0.5;
    denominador=2.0;
  
-    srand(time(NULL));
+   srand(time(NULL));
 
-     for(j=0;j<P;j++)
+   for(j=0;j<P;j++)
        {
-          llenar(red,n,prob);
+         llenar(red,n,prob);
       
-          hoshen(red,n);
+         frag=hoshen(red,n);
         
-          denominador=2.0*denominador;
-	 //if (percola(red,n)) 
-            
-       // prob+=(-1.0/denominador); 
-       // else prob+=(1.0/denominador);
+         denominador=2.0*denominador;
+	 if (percola(red,n, frag)) 
+         	{
+			printf("PERCOLAAAAA");
+        		prob+=(-1.0/denominador); 
+		}
+        else prob+=(1.0/denominador);
         }
     }
 
@@ -151,11 +154,12 @@ mostramostro(red, clase, n, "Primer elemento");
 
   free(clase);
 
-  return 0;
+  return frag;
 }
 int actualizar (int *logo,int *reclase,int s, int frag)
 	{
-	//Esta funcion va a tomar el valor que aparece en s como el valor izquierdo o superior, y si es distinto de cero va a actualizar el valor de la red a la etiqueta usada frag, si no va a subir el valor de frag en una unidad
+	//Esta funcion va a tomar el valor que aparece en s como el valor izquierdo o superior, y si es distinto de cero va a actualizar el valor de la red a la etiqueta usada frag, subiendo el valor de frag en una unidad
+	//No toma siempre una etiqueta nueva, si puede, hereda la etiqueta mas cercana.
 		if (s!=0)
 		{
 			*reclase=s;
@@ -193,17 +197,21 @@ void  llenar(int *red,int n,float prob)//toma la red que le ponen, el lado y la 
 
 void mostrar(int *print, int n)
 {
+	//basicamente recorre la variable print para imprimirla en forma de matriz
 	int  i,j;
+	
 	for (i=0;i<n;i++){
 		printf("\n");
 		for (j=0;j<n;j++){
 			printf("%3i",*(print+i*n+j));
+	
 		}
 	}
 }
 
 void mostramostro(int *red, int *clase, int n, char *k)
 {
+	//imprime de la forma que yo quiera los resultados
 	printf("%s\n", k); 
 	//mostrar(red,n);
 	printf("\n");
@@ -216,9 +224,10 @@ void mostramostro(int *red, int *clase, int n, char *k)
 
 int etiqueta_falsa(int *red,int *clase,int s1,int s2,int i, int n)
 {	
+	//en el caso donde hay un vertice donde se encuentran dos clusters, recorre aburridamente toda la matriz hasta encontrar el cluster a corregir
 	int s,sp, k,l;
 	
-	if (s1!=s2){
+	if (s1!=s2){//Como precaución para no correr codigo al pedo si en realidad es el mismo cluster, la solucion es trivial
 		if (s1>s2) 
 		{	
 			s=s1;
@@ -255,6 +264,60 @@ int etiqueta_falsa(int *red,int *clase,int s1,int s2,int i, int n)
 	
 }
 
+//int quick_etiqueta(int *red,int *clase,int s1,int s2,int *rel)
+//{
+	//esta funcion todavia no la perfeccione, su intencion es reemplazar a etiqueta_falsa, y evitar q tenga q recorrer toda la matriz cada vez q se encuentran dos clusters
+//	*clase=s1;
+//	if (s1!=s2)
+//	{
+//		
+//	}
+//}
+
+int percola (int *clase,int n,int frag)
+{
+	int f,i, *primer, *segundo, t1, t2, k,a;
+	a=0;
+	f=-frag;
+	k=n*n;
+	while (f<frag+1 && a!=0  )
+	{
+		*(primer+f-1)=0;
+		*(segundo+f-1)=0;
+		t1=0;
+		t2=0;
+		i=0;
+		while(i<(n-1) && (t1==0||t2==0))
+		{
+			
+				if (*(clase+i)==f) 
+				{
+					*(primer+f)=1;
+					t1=1;
+				
+				}
+				if (*(clase+k-n+i)=f) 
+				{
+					*(segundo+f)=1;
+					t2=1;
+				
+				}
+			
+			i++;
+		
+		}
+		if ((*(primer+f))&&(*(segundo+f))) 
+		{
+			a=1;
+			
+		}
+		else *(primer+f)=0;
+	f++;
+	}
+	return a;
+	
+}
+			
 	
 	 
 	
