@@ -25,7 +25,7 @@ int  etiqueta_falsa(int *red,int *clase,int s1,int s2, int i, int n); //Voy a us
 
 //void  corregir_etiqueta(int *red,int *clase,int n); // no la voy a usar
 
-int   percola(int *red,int n, int frag); //esta si! revisa si el cluster percola o no.
+int   percola(int *red,int n, int frag); //CANCELADA super impractica y no esta funcionando
 
 int   percola2(int *red,int n, int frag); //esta si! revisa si el cluster percola o no.
 
@@ -61,8 +61,7 @@ int main(int argc,char *argv[])
          frag=hoshen(red,n);
         
          denominador=2.0*denominador;
-	 printf("Inicia chequeo Percolacion\n");
-	 percola2(red,n,frag);
+	 
 	 if (percola2(red,n,frag)) 
          	{
 			printf("PERCOLAAAAA\n");
@@ -348,10 +347,13 @@ int percola (int *red,int n,int frag)
 			
 int percola2	(int *red,int n,int frag)
 {
+//Esta funcion es genial porq no necesita ordenar ni quitar etiquetas repetidas ni nada, solo asigna con un pointer dentro de otro pointer, de manera ordenada, y despues compara, y si un grupo esta tanto de un lado como del otro, devuelve a=1
 	int i, *primer, *segundo,k,a;
 	primer=(int *)malloc(frag*sizeof(int));
 	segundo=(int *)malloc(frag*sizeof(int));
+//seran la primer y ultima fila, o columna si no percola en el primer sentido
 	k=n*n-n;
+//variable auxiliar, poner una multiplicacion dentro de un pointer a veces tira error
 	printf("este es k: %i\n",k);
 	a=0;
 	for(i=0;i<frag;i++) 
@@ -359,6 +361,7 @@ int percola2	(int *red,int n,int frag)
 		*(primer+i)=0;
 		*(segundo+i)=0;
 	}
+//inicializo en cero
 	for(i=0;i<n;i++)
 	{	
 		if (*(red+i))
@@ -369,21 +372,60 @@ int percola2	(int *red,int n,int frag)
 		}
 		if (*(red+k+i))
 		{
-			*(segundo+k+*(red+i)-1)=1;
+			*(segundo+*(red+k+i)-1)=1;
 		}
-		mostra1(red,n,n, "¿Percola esta red?");
-		mostramostro(primer,segundo, 1,frag, "Parcialmente etiquetas ocupadas por primera y ultima fila\n");
+		mostra1(red,n,n, "¿Percola esta red de arriba abajo?");
+		mostramostro(primer,segundo, 1,frag, "Primera y ultima fila\n");
 	}
+//esto va asignando un 1 y lo pone en la posicion que coincide con la etiqueta que tiene, de tal manera q la posicion 3 sea 1 solo si aparece la etiqueta 3 en algun momento
 	i=0;
-	while(i<frag && a!=0) 
+	while(i<frag && a==0) 
 	{
+		printf("paso de chequeo numero : %i\n",i);
 		if ((*(primer+i))&&(*(segundo+i))) 
 			{
 				a=1;
-				
+				printf("PERCOLAPERCOLAPERCOLA");
 			}
 		i=i+1;
 	}
+	
+	if (a==0)
+	{
+		for(i=0;i<frag;i++) 
+		{	
+			*(primer+i)=0;
+			*(segundo+i)=0;
+		}
+		for(i=0;i<n*n;i=i+n)
+		{	
+			if (*(red+i))
+			{
+				*(primer+*(red+i)-1)=1;
+		
+			
+			}
+			if (*(red+i+n-1))
+			{
+				*(segundo+*(red+n+i-1)-1)=1;
+			}
+			mostra1(red,n,n, "¿Percola esta red lado a lado?");
+			mostramostro(primer,segundo, 1,frag, "Primera y ultima columna\n");
+		}
+	i=0;
+		while(i<frag && a==0) 
+		{
+			printf("paso de chequeo numero : %i\n",i);
+			if ((*(primer+i))&&(*(segundo+i))) 
+				{
+					a=1;
+					printf("PERCOLAPERCOLAPERCOLA");
+				}
+			i=i+1;
+		}
+	}
+		
+	printf("¿Esto percolo? %i",a);
 	return a;
 }
 		
