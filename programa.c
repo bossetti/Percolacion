@@ -18,16 +18,20 @@ void mostramostro(int *red, int *clase, int n1, int n2, char *k);//Puedo corregi
 
 int   hoshen(int *red,int n);			// hace el algoritmo de reemplazar todo por etiquetas de cluster y las repara
 
-int   actualizar(int *red,int *reclase,int s,int frag);  //actualiza clase y la va construyendo para que tenga clusters de etiquetas
+int   actualizar(int *red,int *clase,int s,int frag);
 
-int  etiqueta_falsa(int *red,int *clase,int s1,int s2, int i, int n); //Voy a usarla para corregir todo el grupo superior que estaría conectado a este cluster que se une
+int   actualizarplus(int *red,int *reclase,int s,int frag);  //actualiza clase y la va construyendo para que tenga clusters de etiquetas
+
+void etiqueta_falsa(int *red,int *clase, int s1,int s2);
+
+int  etiqueta_falsaplus(int *red,int *clase,int s1,int s2, int i, int n); //Voy a usarla para corregir todo el grupo superior que estaría conectado a este cluster que se une
 //int quick_etiqueta(int *red,int *clase,int s1,int s2, int i, int n);//esto toma s1 y s2 y los asocia permanentemente, de modo de luego ser usada para percolacion, que chequeara teniendo en cuenta que una etiqueta es lo mismo que la otra.
 
-//void  corregir_etiqueta(int *red,int *clase,int n); // no la voy a usar
+void  corregir_etiqueta(int *red,int *clase,int n); //recorre la red y va corrigiendo las etiquetas que tienen un menos
 
 int   percola(int *red,int n, int frag); //CANCELADA super impractica y no esta funcionando
 
-int   percola2(int *red,int n, int frag); //esta si! revisa si el cluster percola o no.
+int   percolaplus(int *red,int n, int frag); //esta si! revisa si el cluster percola o no.
 
 int main(int argc,char *argv[])
 {
@@ -62,7 +66,7 @@ int main(int argc,char *argv[])
         
          denominador=2.0*denominador;
 	 
-	 if (percola2(red,n,frag)) 
+	 if (percolaplus(red,n,frag)) 
          	{
 			printf("PERCOLAAAAA\n");
         		prob+=(-1.0/denominador); 
@@ -86,7 +90,7 @@ int hoshen(int *red,int n)
     a cada fragmento de red. 
   */
 
-  int i,j,k,s1,s2,frag,s; //inicializa todo
+  int i,j,k,s1,s2,frag; //inicializa todo
   int *clase;		//empieza una etiqueta clase que guarda las etiquetas que va usando para el cluster que está distinguiendo
 
   frag=0;	//inicializa la clase temp en 0, esta es la izq del primer elemento
@@ -100,8 +104,11 @@ int hoshen(int *red,int n)
 
   s1=0;	//definimos que el valor a izq de la posicion va a ser cero (no existe, no hay periodicidad)
   frag=2;//primera etiqueta de la clase
-if (*red) *red=frag;
-
+if (*red) 
+{
+	*red=frag;
+	*(clase+frag)=frag;
+}
 	 // Si el primer valor de red esta ocupado, entonces asigno la clase automaticamente
 mostra1(red, n,n, "Primer elemento");  
   // primera fila de la red
@@ -111,7 +118,7 @@ mostra1(red, n,n, "Primer elemento");
       if (*(red+i)) 
          {
            s1=*(red+i-1);  //etiqueta que vamos a poner despues a este cluster
-           frag=actualizar(red+i,clase+i,s1,frag);//ponerle el numero de frag(o del que tiene atras) y asignarle esa etiqueta a la posicion de red, SI el anterior es 0 subir la clase usada, es decir subir el return frag en 1 y ponerle esa clase nueva a la posicion de clase
+           frag=actualizar(red+i,clase,s1,frag);//ponerle el numero de frag(o del que tiene atras) y asignarle esa etiqueta a la posicion de red, SI el anterior es 0 subir la clase usada, es decir subir el return frag en 1 y ponerle esa clase nueva a la posicion de clase
 
 		mostra1(red, n,n, "Primera fila"); 
          }
@@ -128,7 +135,7 @@ mostra1(red, n,n, "Primer elemento");
       if (*(red+i)) 
          {
            s1=*(red+i-n); 
-           frag=actualizar(red+i,clase+i,s1,frag);
+           frag=actualizar(red+i,clase,s1,frag);
 	
 		mostra1(red,n,n, "Cuerpo ppal");
          }
@@ -142,12 +149,12 @@ mostra1(red, n,n, "Primer elemento");
 
 	    if (s1*s2>0)
 	      {
-		s=etiqueta_falsa(red,clase,s1,s2,i,n);
-		*(red+i+j)=s;
-	      }
+		etiqueta_falsa(red+i+j,clase,s1,s2);
+		mostramostro(red, clase, n,n,"Aca hubo colision de clusters");
+              }
 	    else 
-	      { if (s1!=0) frag=actualizar(red+i+j,clase+i+j,s1,frag);
-	        else       frag=actualizar(red+i+j,clase+i+j,s2,frag);
+	      { if (s1!=0) frag=actualizar(red+i+j,clase,s1,frag);
+	        else       frag=actualizar(red+i+j,clase,s2,frag);
 		
 		mostra1(red, n,n, "Cuerpo ppal");
 	      }
@@ -161,7 +168,28 @@ mostra1(red, n,n, "Primer elemento");
 
   return frag;
 }
-int actualizar (int *logo,int *reclase,int s, int frag)
+
+
+int actualizar(int *red,int *clase,int s, int frag)
+	{
+	//Esta funcion va a tomar el valor que aparece en s como el valor izquierdo o superior, y si es distinto de cero va a actualizar el valor de la red a la etiqueta usada frag, subiendo el valor de frag en una unidad
+	//No toma siempre una etiqueta nueva, si puede, hereda la etiqueta mas cercana.
+		if (s!=0)
+		{
+			*red=s;
+			*(clase+frag)=frag;
+		}  
+		else
+		{
+			frag++;	
+			if (*(clase+frag)!=0) *(clase+frag)=frag;
+			*red=frag;
+		}
+	return frag;
+	}
+
+
+int actualizarplus (int *logo,int *reclase,int s, int frag)
 	{
 	//Esta funcion va a tomar el valor que aparece en s como el valor izquierdo o superior, y si es distinto de cero va a actualizar el valor de la red a la etiqueta usada frag, subiendo el valor de frag en una unidad
 	//No toma siempre una etiqueta nueva, si puede, hereda la etiqueta mas cercana.
@@ -242,7 +270,38 @@ void mostramostro(int *red, int *clase, int n1, int n2, char *k)
 
 
 
-int etiqueta_falsa(int *red,int *clase,int s1,int s2,int i, int n)
+void etiqueta_falsa(int *red,int *clase,int s1,int s2)
+{	
+	//en el caso donde hay un vertice donde se encuentran dos clusters, recorre aburridamente toda la matriz hasta encontrar el cluster a corregir
+	
+	
+	if (s1!=s2){//Como precaución para no correr codigo al pedo si en realidad es el mismo cluster, la solucion es trivial
+		if (s1>s2) 
+		{	
+			*red=s2;
+			
+				
+			*(clase+s1-1)=(-1)*s2;
+		
+		}
+		if (s1<s2)
+		{
+			*red=s1;
+			
+			*(clase+s2-1)=(-1)*s1;
+			
+		}	
+		else 
+		{	
+			*red=s2;
+			
+			
+		}	
+	}
+}
+
+
+int etiqueta_falsaplus(int *red,int *clase,int s1,int s2,int i, int n)
 {	
 	//en el caso donde hay un vertice donde se encuentran dos clusters, recorre aburridamente toda la matriz hasta encontrar el cluster a corregir
 	int s,sp, k,l;
@@ -282,6 +341,28 @@ int etiqueta_falsa(int *red,int *clase,int s1,int s2,int i, int n)
 	}
 	return s;	
 	
+}
+
+void  corregir_etiqueta(int *red,int *clase,int n)
+
+{
+	int k,l,r;
+	
+	
+	for(k=0;k<n*n;k=k+n)
+	{
+		for(l=0;l<n;l++)
+		{
+			r=*(clase+*(red+k+l));
+			while (r<0)
+				{
+					r=abs(*(clase+*(red+k+l)));
+				}
+			*(red+k+l)=r;
+		}
+	}
+							
+	mostra1(red,n,n,"Esta es la matriz final");
 }
 
 //int quick_etiqueta(int *red,int *clase,int s1,int s2,int *rel)
@@ -345,7 +426,7 @@ int percola (int *red,int n,int frag)
 	
 }
 			
-int percola2	(int *red,int n,int frag)
+int percolaplus	(int *red,int n,int frag)
 {
 //Esta funcion es genial porq no necesita ordenar ni quitar etiquetas repetidas ni nada, solo asigna con un pointer dentro de otro pointer, de manera ordenada, y despues compara, y si un grupo esta tanto de un lado como del otro, devuelve a=1
 	int i, *primer, *segundo,k,a;
