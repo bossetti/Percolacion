@@ -2,6 +2,9 @@ Ignacio Perez Ipiña    425/12
 ipina@qi.fcen.uba.ar 
 hbossetti@gmail.com
 
+Actualizacion 21/3/2017: Estoy atrasado con los ejercicios asi que este fin de semana voy a apurar todo y tratar de terminar.
+La rama que tiene los codigos mas actualizados es "oficial" y ahi estoy haciendo los cambios para el ejercicio 1, con el programa.c y prodif1b.c
+
 ¿Que tal?
 
 Resumen de lo que hay aca
