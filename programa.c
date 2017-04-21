@@ -20,22 +20,16 @@ int   hoshen(int *red,int n);			// hace el algoritmo de reemplazar todo por etiq
 
 int   actualizar(int *red,int *clase,int s,int frag);
 
-int   actualizarplus(int *red,int *reclase,int s,int frag);  //actualiza clase y la va construyendo para que tenga clusters de etiquetas
 
 void etiqueta_falsa(int *red,int *clase, int s1,int s2);
 
-int  etiqueta_falsaplus(int *red,int *clase,int s1,int s2, int i, int n); //Voy a usarla para corregir todo el grupo superior que estaría conectado a este cluster que se une
-//int quick_etiqueta(int *red,int *clase,int s1,int s2, int i, int n);//esto toma s1 y s2 y los asocia permanentemente, de modo de luego ser usada para percolacion, que chequeara teniendo en cuenta que una etiqueta es lo mismo que la otra.
 
 void  corregir_etiqueta(int *red,int *clase,int n); //recorre la red y va corrigiendo las etiquetas que tienen un menos
 
-int   percola(int *red,int n, int frag); //CANCELADA super impractica y no esta funcionando
-
-int   percolaplus(int *red,int n, int frag); //esta si! revisa si el cluster percola o no.
-
+int   percola(int *red,int n); //CANCELADA super impractica y no esta funcionando
 int main(int argc,char *argv[])
 {
-  int    i,j,*red,n,z, frag;
+  int    i,j,*red,n,z;
   float  prob,denominador;
 
   n=N;
@@ -51,27 +45,28 @@ int main(int argc,char *argv[])
 
 
 
-  for(i=0;i<z;i++) 
-  {
-   prob=0.5;
-   denominador=2.0;
+  for(i=0;i<z;i++)
+    {
+      prob=0.5;
+      denominador=2.0;
  
-   srand(time(NULL));
+      srand(time(NULL));
 
-   for(j=0;j<P;j++)
-       {
-         llenar(red,n,prob);
-      
-         frag=hoshen(red,n);
+      for(j=0;j<P;j++)
+        {
+          llenar(red,n,prob);
+      	  mostra1(red,n,n,"Matriz de partida");
+          hoshen(red,n);
         
-         denominador=2.0*denominador;
-	 
-	 if (percolaplus(red,n,frag)) 
-         	{
-			printf("PERCOLAAAAA\n");
-        		prob+=(-1.0/denominador); 
-		}
-        else prob+=(1.0/denominador);
+          denominador=2.0*denominador;
+
+          if (percola(red,n)) 
+	  {
+             prob+=(-1.0/denominador); 
+	     printf("Percola, Obviously");
+	  }
+          else prob+=(1.0/denominador);
+	  mostra1(red,n,n,"Matriz de partida");
         }
     }
 
@@ -79,6 +74,7 @@ int main(int argc,char *argv[])
 
   return 0;
 }
+
 
 
 
@@ -110,7 +106,7 @@ if (*red)
 	*(clase+frag)=frag;
 }
 	 // Si el primer valor de red esta ocupado, entonces asigno la clase automaticamente
-mostra1(red, n,n, "Primer elemento");  
+//mostra1(red, n,n, "Punto de partida");  
   // primera fila de la red
 
   for(i=1;i<n;i++) 
@@ -120,7 +116,7 @@ mostra1(red, n,n, "Primer elemento");
            s1=*(red+i-1);  //etiqueta que vamos a poner despues a este cluster
            frag=actualizar(red+i,clase,s1,frag);//ponerle el numero de frag(o del que tiene atras) y asignarle esa etiqueta a la posicion de red, SI el anterior es 0 subir la clase usada, es decir subir el return frag en 1 y ponerle esa clase nueva a la posicion de clase
 
-		mostra1(red, n,n, "Primera fila"); 
+		//mostra1(red, n,n, "Primera fila"); 
          }
     }
 
@@ -137,7 +133,7 @@ mostra1(red, n,n, "Primer elemento");
            s1=*(red+i-n); 
            frag=actualizar(red+i,clase,s1,frag);
 	
-		mostra1(red,n,n, "Cuerpo ppal");
+		//mostra1(red,n,n, "Cuerpo ppal");
          }
 	//aca comienza con el codigo en todas las filas
 
@@ -150,19 +146,19 @@ mostra1(red, n,n, "Primer elemento");
 	    if (s1*s2>0)
 	      {
 		etiqueta_falsa(red+i+j,clase,s1,s2);
-		mostramostro(red, clase, n,n,"Aca hubo colision de clusters");
+		//mostramostro(red, clase, n,n,"Aca hubo colision de clusters");
               }
 	    else 
 	      { if (s1!=0) frag=actualizar(red+i+j,clase,s1,frag);
 	        else       frag=actualizar(red+i+j,clase,s2,frag);
 		
-		mostra1(red, n,n, "Cuerpo ppal");
+		//mostra1(red, n,n, "Cuerpo ppal");
 	      }
 	  }
     }
 
 
-  //corregir_etiqueta(red,clase,n);
+  corregir_etiqueta(red,clase,n);
 
   free(clase);
 
@@ -171,40 +167,23 @@ mostra1(red, n,n, "Primer elemento");
 
 
 int actualizar(int *red,int *clase,int s, int frag)
-	{
+{
 	//Esta funcion va a tomar el valor que aparece en s como el valor izquierdo o superior, y si es distinto de cero va a actualizar el valor de la red a la etiqueta usada frag, subiendo el valor de frag en una unidad
 	//No toma siempre una etiqueta nueva, si puede, hereda la etiqueta mas cercana.
-		if (s!=0)
-		{
-			*red=s;
-			*(clase+frag)=frag;
-		}  
-		else
-		{
-			frag++;	
-			if (*(clase+frag)!=0) *(clase+frag)=frag;
-			*red=frag;
-		}
-	return frag;
-	}
-
-
-int actualizarplus (int *logo,int *reclase,int s, int frag)
+	if (s!=0)
 	{
-	//Esta funcion va a tomar el valor que aparece en s como el valor izquierdo o superior, y si es distinto de cero va a actualizar el valor de la red a la etiqueta usada frag, subiendo el valor de frag en una unidad
-	//No toma siempre una etiqueta nueva, si puede, hereda la etiqueta mas cercana.
-		if (s!=0)
-		{
-			*logo=s;
-		}  
-		else
-		{
-			frag++;	
-			
-			*logo=frag;
-		}
-	return frag;
+		*red=s;
+		if (*(clase+frag)==0) *(clase+frag)=frag;
+	}  
+	else
+	{
+		frag++;	
+		if (*(clase+frag)==0) *(clase+frag)=frag;
+		*red=frag;
 	}
+	return frag;
+}
+
 
 
 
@@ -275,73 +254,31 @@ void etiqueta_falsa(int *red,int *clase,int s1,int s2)
 	//en el caso donde hay un vertice donde se encuentran dos clusters, recorre aburridamente toda la matriz hasta encontrar el cluster a corregir
 	
 	
-	if (s1!=s2){//Como precaución para no correr codigo al pedo si en realidad es el mismo cluster, la solucion es trivial
-		if (s1>s2) 
-		{	
-			*red=s2;
-			
-				
-			*(clase+s1-1)=(-1)*s2;
+	//Como precaución para no correr codigo al pedo si en realidad es el mismo cluster, la solucion es trivial
+	if (s1>s2) 
+	{	
+		*red=s2;
 		
-		}
-		if (s1<s2)
-		{
-			*red=s1;
 			
-			*(clase+s2-1)=(-1)*s1;
-			
-		}	
-		else 
-		{	
-			*red=s2;
-			
-			
-		}	
-	}
-}
-
-
-int etiqueta_falsaplus(int *red,int *clase,int s1,int s2,int i, int n)
-{	
-	//en el caso donde hay un vertice donde se encuentran dos clusters, recorre aburridamente toda la matriz hasta encontrar el cluster a corregir
-	int s,sp, k,l;
+		*(clase+s1)=(-1)*s2;
 	
-	if (s1!=s2){//Como precaución para no correr codigo al pedo si en realidad es el mismo cluster, la solucion es trivial
-		if (s1>s2) 
-		{	
-			s=s1;
-			sp=s2;	
+	}
+	if (s1<s2)
+	{
+		*red=s1;
 		
-		}	
-		else 
-		{	
-			s=s2;
-			sp=s1;
-			
-		}	
-		printf("s=%i\n",s);
-		printf("sp=%i\n",sp);
-		for(k=0;k<(i/n)+1;k++){
-			for(l=0;l<n;l++){
-				printf("valor anterior=%i\n",*(red+k*n+l));
-				printf("fila analizada=%i\n",k+1);
-				printf("col analizada=%i\n",l+1);
-				if ((*(red+k*n+l))==sp){ 
-				
-					*(red+k*n+l)=s;
-				
-					
-				}
-				mostra1(red,n,n, "Unión de clusters");
-			}
-		}
+		*(clase+s2)=(-1)*s1;
+		
 	}	
-	else{
-		s=s1;
-	}
-	return s;	
+	else 
+	{	
+		*red=s2;
+		
+		
+	}	
 	
 }
+
 
 void  corregir_etiqueta(int *red,int *clase,int n)
 
@@ -352,13 +289,19 @@ void  corregir_etiqueta(int *red,int *clase,int n)
 	for(k=0;k<n*n;k=k+n)
 	{
 		for(l=0;l<n;l++)
-		{
-			r=*(clase+*(red+k+l));
-			while (r<0)
-				{
-					r=abs(*(clase+*(red+k+l)));
-				}
-			*(red+k+l)=r;
+		{	
+			if (*(red+k+l)!=0)
+			{
+				r=*(clase+*(red+k+l));
+				printf(" chequeando etiqueta : %i\n",r);
+				while (r<0)
+					{
+						r=abs(*(clase+*(red+k+l)));
+						//printf(" Saltando a : %i\n",r);
+						//mostra1(red,n,n,"asi estamos hasta aca");
+					}
+				*(red+k+l)=r;
+			}
 		}
 	}
 							
@@ -375,69 +318,20 @@ void  corregir_etiqueta(int *red,int *clase,int n)
 //	}
 //}
 
-int percola (int *red,int n,int frag)
-{
-	int f,i, *primer, *segundo, t1, t2, k,a;
-	a=0;
-	f=2;
-	k=n*n;
-	primer=(int *)malloc(frag*sizeof(int));
-	segundo=(int *)malloc(frag*sizeof(int));
-	printf("etiqueta maxima : %i \n",frag);
-	while (f<frag+1 && a==0 )
-	{
-		*(primer+f-2)=0;
-		*(segundo+f-2)=0;
-		t1=0;
-		t2=0;
-		i=0;
-		while(i<n && (t1==0 || t2==0))
-		{
-			
-				if (*(red+i)==f) 
-				{
-					*(primer+f-2)=1;
-					t1=1;
-				
-				}
-				if (*(red+k-n+i)==f) 
-				{
-					*(segundo+f-2)=1;
-					t2=1;
-				
-				}
-			mostra1(red,n,n, "¿Percola esta red?");
-			mostramostro(primer, segundo,1,n, "Parcialmente primera y ultima fila");
-			printf("Chequeando etiqueta %i\n",f);
-			printf("Chequeando columna %i\n",i+1);
-			i=i+1;
-		
-		}
-		if ((*(primer+f))&&(*(segundo+f))) 
-		{
-			a=1;
-			
-		}
-		else *(primer+f)=0;
-
-		f=f+1;
-	}
-	return a;
-	
-}
-			
-int percolaplus	(int *red,int n,int frag)
+int percola (int *red,int n)
 {
 //Esta funcion es genial porq no necesita ordenar ni quitar etiquetas repetidas ni nada, solo asigna con un pointer dentro de otro pointer, de manera ordenada, y despues compara, y si un grupo esta tanto de un lado como del otro, devuelve a=1
-	int i, *primer, *segundo,k,a;
-	primer=(int *)malloc(frag*sizeof(int));
-	segundo=(int *)malloc(frag*sizeof(int));
+	int i, *primer, *segundo,k,a,max;
+	
+	primer=(int *)malloc(n*n*sizeof(int));
+	segundo=(int *)malloc(n*n*sizeof(int));
 //seran la primer y ultima fila, o columna si no percola en el primer sentido
 	k=n*n-n;
 //variable auxiliar, poner una multiplicacion dentro de un pointer a veces tira error
 	printf("este es k: %i\n",k);
 	a=0;
-	for(i=0;i<frag;i++) 
+	max=0;
+	for(i=0;i<n*n;i++) 
 	{	
 		*(primer+i)=0;
 		*(segundo+i)=0;
@@ -455,14 +349,18 @@ int percolaplus	(int *red,int n,int frag)
 		{
 			*(segundo+*(red+k+i)-1)=1;
 		}
-		mostra1(red,n,n, "¿Percola esta red de arriba abajo?");
-		mostramostro(primer,segundo, 1,frag, "Primera y ultima fila\n");
+		
+		if ((*(red+i))>max) max=*(red+i);
+		if ((*(red+k+i))>max) max=*(red+k+i);
+		printf("\n%i",max);
+		//mostra1(red,n,n, "¿Percola esta red de arriba abajo?");
+		//mostramostro(primer,segundo, 1,n*n, "Primera y ultima fila\n");
 	}
 //esto va asignando un 1 y lo pone en la posicion que coincide con la etiqueta que tiene, de tal manera q la posicion 3 sea 1 solo si aparece la etiqueta 3 en algun momento
 	i=0;
-	while(i<frag && a==0) 
+	while(i<max && a==0) 
 	{
-		printf("paso de chequeo numero : %i\n",i);
+		printf("paso de chequeo numero : %i\n",i+1);
 		if ((*(primer+i))&&(*(segundo+i))) 
 			{
 				a=1;
@@ -473,7 +371,7 @@ int percolaplus	(int *red,int n,int frag)
 	
 	if (a==0)
 	{
-		for(i=0;i<frag;i++) 
+		for(i=0;i<max;i++) 
 		{	
 			*(primer+i)=0;
 			*(segundo+i)=0;
@@ -486,17 +384,20 @@ int percolaplus	(int *red,int n,int frag)
 		
 			
 			}
-			if (*(red+i+n-1))
+			if (*(red+i+n))
 			{
-				*(segundo+*(red+n+i-1)-1)=1;
+				*(segundo+*(red+n-1+i)-1)=1;
 			}
-			mostra1(red,n,n, "¿Percola esta red lado a lado?");
-			mostramostro(primer,segundo, 1,frag, "Primera y ultima columna\n");
+			if ((*(red+i))>max) max=(*(red+i));
+			if ((*(red+n+i-1))>max) max=*(red+n+i-1);
+			printf("\n%i",max);
+			//mostra1(red,n,n, "¿Percola esta red lado a lado?");
+			//mostramostro(primer,segundo, 1,n*n, "Primera y ultima columna\n");
 		}
 	i=0;
-		while(i<frag && a==0) 
+		while(i<max && a==0) 
 		{
-			printf("paso de chequeo numero : %i\n",i);
+			printf("paso de chequeo numero : %i\n",i+1);
 			if ((*(primer+i))&&(*(segundo+i))) 
 				{
 					a=1;
@@ -507,6 +408,8 @@ int percolaplus	(int *red,int n,int frag)
 	}
 		
 	printf("¿Esto percolo? %i",a);
+	free(primer);
+	free(segundo);
 	return a;
 }
 		
