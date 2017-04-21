@@ -1,3 +1,7 @@
+Ignacio Perez Ipiña    425/12
+ipina@qi.fcen.uba.ar 
+hbossetti@gmail.com
+
 ¿Que tal?
 
 Resumen de lo que hay aca
