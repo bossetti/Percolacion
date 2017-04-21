@@ -255,7 +255,7 @@ void etiqueta_falsa(int *red,int *clase,int s1,int s2)
 	
 	
 	//Como precaución para no correr codigo al pedo si en realidad es el mismo cluster, la solucion es trivial
-	if (s1>s2) 
+if (s1>s2) 
 	{	
 		*red=s2;
 		
@@ -285,7 +285,7 @@ void  corregir_etiqueta(int *red,int *clase,int n)
 {
 	int k,l,r;
 	
-	
+	mostramostro(red,clase, n,n,"Estoy corrigiendo");
 	for(k=0;k<n*n;k=k+n)
 	{
 		for(l=0;l<n;l++)
@@ -296,7 +296,9 @@ void  corregir_etiqueta(int *red,int *clase,int n)
 				printf(" chequeando etiqueta : %i\n",r);
 				while (r<0)
 					{
-						r=abs(*(clase+*(red+k+l)));
+						printf(" chequeando colisión : %i\n",r);
+						r=*(clase+abs(r));
+						
 						//printf(" Saltando a : %i\n",r);
 						//mostra1(red,n,n,"asi estamos hasta aca");
 					}
@@ -408,8 +410,7 @@ int percola (int *red,int n)
 	}
 		
 	printf("¿Esto percolo? %i",a);
-	free(primer);
-	free(segundo);
+	
 	return a;
 }
 		
