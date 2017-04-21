@@ -310,7 +310,7 @@ void  corregir_etiqueta(int *red,int *clase,int n)
 		}
 	}
 							
-	//mostra1(red,n,n,"Esta es la matriz final");
+	mostra1(red,n,n,"Esta es la matriz final");
 }
 
 //int quick_etiqueta(int *red,int *clase,int s1,int s2,int *rel)

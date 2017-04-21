@@ -4,8 +4,8 @@
 #include <time.h>
 
 #define P     16             // 1/2^P, P=16
-#define Z     27000          // iteraciones
-#define N     5            // lado de la red simulada
+#define Z     27000     // iteraciones
+#define N     8            // lado de la red simulada
 
 
 void  llenar(int *red,int n,float prob); //llena con 1 y ceros con prob p de ser 1. (falta programar)
@@ -26,15 +26,19 @@ void etiqueta_falsa(int *red,int *clase, int s1,int s2);
 
 void  corregir_etiqueta(int *red,int *clase,int n); //recorre la red y va corrigiendo las etiquetas que tienen un menos
 
-int   percola(int *red,int n); //CANCELADA super impractica y no esta funcionando
+int   percola(int *red,int n); 
+
 int main(int argc,char *argv[])
 {
-  int    i,j,*red,n,z;
-  float  prob,denominador,prom;
-
+  int    i,j,*red,n,z, div,cantperc;
+  float  prob,diff,res,prom;
+//div es cantidad de pedazos que quiero partirlo
+//diff es el paso diferencial para cada grupo de probabilidades
   n=N;
   z=Z;
-
+  div=100;
+  diff=1.0/div;
+  printf("\ndiff=%f\n",diff);
   if (argc==3) 
      {
        sscanf(argv[1],"%d",&n);
@@ -43,36 +47,40 @@ int main(int argc,char *argv[])
     
   red=(int *)malloc(n*n*sizeof(int));
 
-  prom=0;//defino un promedio que voy a usar
-
-  for(i=0;i<z;i++)
+  prob=0;
+  
+  for(i=0;i<div;i++)
     {
-      printf("\nEsta es la iteracion :%i",i);
-      prob=0.5;
-      denominador=2.0;
+	//inicio el loop donde voy recorriendo con pasos diff de 0 a 1
+	cantperc=0; //este es el contador de percolantes promediados en este diferencial
+      //printf("\nEsta es la iteracion :%i",i);
+      prob=prob+diff;
+      
  
       srand(time(NULL));
 
-      for(j=0;j<P;j++)
+      for(j=0;j<z;j++)
         {
+	  
           llenar(red,n,prob);
       	  //mostra1(red,n,n,"Matriz de partida");
           hoshen(red,n);
         
-          denominador=2.0*denominador;
-
-          if (percola(red,n)) 
-	  {
-             prob+=(-1.0/denominador); 
-	     //printf("Percola, Obviously");
-	  }
-          else prob+=(1.0/denominador);
-	  //mostra1(red,n,n,"Matriz de partida");
+          cantperc=cantperc+percola(red,n);
+	  //printf("\ncantidad de percolaciones:%i\n",cantperc);
+          
+          
 	 
         }
-	prom=prom+prob;
+	printf("\ncantidad de percolaciones:%i\n",cantperc);
+	prom=(float)cantperc/(float)z;
+	res=diff*cantperc/z;
+	printf("\n Promedio de redes que percolan :%f",prom);
+	printf("  en p :%f\n",prob);
+	printf("  Su probabilidad entonces es:%f\n",res);
+	printf("\n");
     }
-  printf("\nPromedio final :%f\n",prom/z);
+  
   free(red);
 
   return 0;
@@ -194,7 +202,7 @@ void  llenar(int *red,int n,float prob)//toma la red que le ponen, el lado y la 
 {
 	float r;
 	int  i,j;
-	srand(time(NULL));
+
 	for (i=0;i<n;i++){
 		for(j=0; j<n; j++){
 					
@@ -234,7 +242,7 @@ void mostra1(int *red, int n1, int n2, char *k)
 	
 	
 	 
-	getchar();  
+	//getchar();  
 }
 
 void mostramostro(int *red, int *clase, int n1, int n2, char *k)
@@ -310,7 +318,7 @@ void  corregir_etiqueta(int *red,int *clase,int n)
 		}
 	}
 							
-	mostra1(red,n,n,"Esta es la matriz final");
+	//mostra1(red,n,n,"Esta es la matriz final");
 }
 
 //int quick_etiqueta(int *red,int *clase,int s1,int s2,int *rel)
