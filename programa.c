@@ -27,6 +27,9 @@ void etiqueta_falsa(int *red,int *clase, int s1,int s2);
 void  corregir_etiqueta(int *red,int *clase,int n); //recorre la red y va corrigiendo las etiquetas que tienen un menos
 
 int   percola(int *red,int n); //CANCELADA super impractica y no esta funcionando
+
+
+
 int main(int argc,char *argv[])
 {
   int    i,j,*red,n,z;
@@ -42,7 +45,7 @@ int main(int argc,char *argv[])
      }
     
   red=(int *)malloc(n*n*sizeof(int));
-
+  
   prom=0;//defino un promedio que voy a usar
 
   for(i=0;i<z;i++)
@@ -72,7 +75,10 @@ int main(int argc,char *argv[])
         }
 	prom=prom+prob;
     }
-  printf("\nPromedio final :%f\n",prom/z);
+  
+  
+	
+  printf ( "%.3f \t %.3f \n", prob, prom/z );
   free(red);
 
   return 0;
