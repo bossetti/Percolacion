@@ -29,5 +29,5 @@ float volare(int argc,int  na,int za);//funcion que hace el 1a
 
 float  diferenciare(int arc, int na, int za,float *res, int div);
 
-int percolacuenta(int *red,int n, int *per);
+int percolacuenta(int *red,int n, int *per)
 

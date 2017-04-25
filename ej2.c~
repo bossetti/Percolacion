@@ -67,7 +67,7 @@ int main()
 								mostramostro(red,per,na,na,"asi vamos\n");	
 								for (l=0;l<na*na;l++)
 								{
-									if ((*(red+l))&&(*(per+*(red+l)-1))) 
+									if (*(red+l)&&((*(red+l))&&(*(per+*(red+l)-1)))) 
 									{
 																			
 										 *(per+*(red+l)-1)+=1;
