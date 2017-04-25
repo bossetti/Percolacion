@@ -36,21 +36,69 @@ void  corregir_etiquetaquick(int *red,int *clase,int n); //recorre la red y va c
 int   percola(int *red,int n); //CANCELADA super impractica y no esta funcionando
 float volare(int argc,int  na,int za);//funcion que hace el 1a
 
-float  diferenciare(int arc, int na, int za);
+float  diferenciare(int arc, int na, int za,float *res, int div);
 
+int completo(int arc,int na,int za)
 
-
-
-float diferenciare(int arc, int na, int za)
+int completo(int arc,int na,int za)
 {
 
-int    i,j,*red,n,z, div,cantperc;
-float  prob,diff,*res,out,k;
+  int    i,j,*red,n,z, conta;
+  float  prob,denominador,prom;
+
+  n=N;
+  z=Z;
+
+  if (arc==3) 
+     {
+       
+  	n=na;
+  	z=za;
+     }
+    
+  red=(int *)malloc(n*n*sizeof(int));
+  
+  prom=0;//defino un promedio que voy a usar
+
+  for(i=0;i<z;i++)
+    {
+      //printf("\nEsta es la iteracion :%i",i);
+      prob=0.5;
+      denominador=2.0;
+ 
+      srand(time(NULL));
+
+      
+	  llenar(red,n,prob);
+	  //mostra1(red,n,n,"Matriz de partida");
+	  conta=hoshencontador(red,n);
+
+	  denominador=2.0*denominador;
+
+	  
+
+	prom=prom+prob;
+    }
+  
+  
+	
+  //printf ( "%.3i \t %.3f ",n, prom/z );
+  free(red);
+ 
+  return tamperc;
+}
+
+
+float diferenciare(int arc, int na, int za,float *res, int div)
+{
+
+int    i,j,*red,n,z,cantperc;
+float  prob,diff,out,k;
 //div es cantidad de pedazos que quiero partirlo
 //diff es el paso diferencial para cada grupo de probabilidades
   n=N;
   z=Z;
-  div=100;
+  
   diff=1.0/div;
   //printf("\ndiff=%f\n",diff);
   if (arc==3) 
@@ -61,10 +109,11 @@ float  prob,diff,*res,out,k;
 
      }
   red=(int *)malloc(n*n*sizeof(int));
-  res=(float *)malloc(div*sizeof(float));
+ 
 
   prob=0;
   *res=0;
+  k=0;
   for(i=0;i<div;i++)
     {
 	//inicio el loop donde voy recorriendo con pasos diff de 0 a 1
@@ -88,7 +137,8 @@ float  prob,diff,*res,out,k;
           
 	 
         }
-	*(res+i)=cantperc*diff/z;
+	*(res+i)=(float)cantperc/z;
+	k=k+(*(res+i))*diff;
 	//tal=(float)cantperc/z;
 	//if ((cantperc/z)>0.5) break;
 	//printf("\n %i",cantperc);
@@ -98,24 +148,15 @@ float  prob,diff,*res,out,k;
 	
     }
   //prom=(float)cantperc/(float)z;
-  prob=0;
-  i=0;
-  k=0;
-  while(k<0.5 && i<div)
-  {
-	  prob=prob+diff;
-	  *(res+i)=*(res+i)/(*(res+div-1));
-	  k=k+prob*(*(res+i));
-	  //printf("\n %f \t %f",prob,*(res+i));
-	  i=i+1;
-  }
-  out=prob;
+ 
+  
+  
   //printf("\n %f",out);
         
   free(red);
-  free(res);
+ 
   
-  return out;
+  return k;
 }
 
 

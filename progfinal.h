@@ -20,4 +20,4 @@ void  corregir_etiqueta(int *red,int *clase,int n); //recorre la red y va corrig
 int   percola(int *red,int n); //CANCELADA super impractica y no esta funcionando
 float volare(int argc,int na, int za);//funcion que hace el 1a
 
-float diferenciare(int arc, int na, int za);
+float diferenciare(int arc, int na, int za, float *res, int div);
