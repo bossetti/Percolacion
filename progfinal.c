@@ -8,6 +8,30 @@
 #define Z     27000          // iteraciones
 #define N     5            // lado de la red simulada
 
+void contarclusters(int *red, int *clusters, int n)
+
+
+{
+	int k,l;
+	
+	//mostramostro(red,clase, n,n,"Estoy corrigiendo");
+	for(k=0;k<n*n;k=k+n)
+	{
+		for(l=0;l<n;l++)
+		{	
+			if (*(red+k+l)!=0)
+			{
+				*(clusters+*(red+k+l)-1)+=1;
+				
+					
+				
+			}
+		}
+	}
+							
+	//mostra1(red,n,n,"Esta es la matriz final");
+}
+
 
 float diferenciare(int arc, int na, int za,float *res, int div)
 {

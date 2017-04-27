@@ -5,23 +5,23 @@
 #include <time.h>
 
 #define P     16             // 1/2^P, P=16
-#define Z     2700          // iteraciones
-#define N     4           // lado de la red simulada
+#define Z     270          // iteraciones
+#define N     20           // lado de la red simulada
 
 
 int main()
 {
 	
-	int n,na,i,j,div,*red,z,*per,r,a,l ;
-	float  prob,diff,prom;
+	int n,na,i,j,div,*red,z,r,l,*per,*clusters,max ;
+	float  prob,prom,diff;
 	z=N;
 	n=N;
 	
 	
 	
-	prom=0;//defino un promedio que voy a usar
+	
 
-	div=1000;
+	div=100;
 	diff=1.0/div;
  	
 	srand(time(NULL));
@@ -30,59 +30,51 @@ int main()
 	FILE *f;
 	
 	
-	f = fopen("plot.txt", "a");
-	for ( na=n ; na<32 ; na++ )
+	f = fopen("plot.txt", "w");
+	for ( na=n ; na<11 ; na++ )
 	{
 		red=(int *)malloc(na*na*sizeof(int));
-  		per=(int *)malloc(na*na*sizeof(int));
-		for(i=0;i<n*n;i++)
+  		clusters=(int *)malloc(na*na*sizeof(int));
+		per=(int *)malloc(na*na*sizeof(int));
+		
+		
+		for	(j=0;j<div;j++)
 		{
-			*(per+i)=0;
-		}
-		mostra1(per,n,n,"este es per");
-		for	(j=0;j<4;j++)
-		{
-			prob=0.3;
-			for(r=0;i<div;i++)
-    		{
-				prom=0;
-				
+			prob=0;
+			for(r=0;r<div;r++)
+    	{
+							
 				prob=prob+diff;
-				for(i=0;i<z;i++)
+				for(l=0;l<z;l++)
 				{
-				      //printf("\nEsta es la iteracion :%i",i);
 				      
-				 
+				    prom=0;  
+				 	  for (i=0;i<na*na;i++)  
+						{
+							*(clusters+i)=0;
+							*(per+i)=0;
+						}
 					  llenar(red,na,prob);
 					  //mostra1(red,n,n,"Matriz de partida");
 					  hoshen(red,na);
-					  a=percolacuenta(red,na,per);
-					  mostra1(red,na,na,"esta es la red");
-					  mostra1(per,na,na,"este es per");
-					  if (a) 
+					  percolacuenta(red,na,per);
+					  //mostra1(red,na,na,"esta es la red");
+					  //mostra1(per,na,na,"este es per");
+					  contarclusters(red,clusters,na);
+					  //mostra1(clusters,na,na,"Cant de nodos por cluster");
+					  max=0;
+					  for (i=0;i<na*na;i++)
 					  {
-							for (r=0;r<na*na;r++)
-							{
-								printf("Comienza medido de fuerza de percolante :tamaño red %i \t iteracion %i \t %i \t %i \t chequeando pos %i \n",na,j,r,i,r+1);
-								mostramostro(red,per,na,na,"asi vamos\n");	
-								for (l=0;l<na*na;l++)
-								{
-									if ((*(red+l))&&(*(per+*(red+l)-1))) 
-									{
-																			
-										 *(per+*(red+l)-1)+=1;
-										
-									}									
-								}
-							}
+							if ((*(clusters+i) && *(per+i)) && *(clusters+i)>max) max=*(clusters+i);
+					  }   
+						
+						prom+=(float)max/(na*na);
 					  
-						}
-				      prom=prom+prob;
+				    
 				  }
-				  for(i=0;i<na*na;i++)
-					{
-						*(per+i)=0;
-					}
+				  printf("Prob = %f Max=%f\n",prob,prom);
+					fprintf(f,"\n %f \t %f",prob,prom);
+				 
 			}
 			
 			
@@ -92,6 +84,7 @@ int main()
 			
 		}
 		free(red);
+		free(clusters);
 		free(per);
 	}
 	fclose(f);
