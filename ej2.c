@@ -5,8 +5,8 @@
 #include <time.h>
 
 #define P     16             // 1/2^P, P=16
-#define Z     270          // iteraciones
-#define N     20           // lado de la red simulada
+#define Z     2700          // iteraciones
+#define N     32           // lado de la red simulada
 
 
 int main()
@@ -31,20 +31,20 @@ int main()
 	
 	
 	f = fopen("plot.txt", "w");
-	for ( na=n ; na<11 ; na++ )
+	for ( na=n ; na<33 ; na++ )
 	{
 		red=(int *)malloc(na*na*sizeof(int));
-  		clusters=(int *)malloc(na*na*sizeof(int));
+  	clusters=(int *)malloc(na*na*sizeof(int));
 		per=(int *)malloc(na*na*sizeof(int));
 		
-		
+		prob=0;
 		for	(j=0;j<div;j++)
 		{
-			prob=0;
+			prob=prob+diff;
 			for(r=0;r<div;r++)
-    	{
+			{
 							
-				prob=prob+diff;
+				
 				for(l=0;l<z;l++)
 				{
 				      
