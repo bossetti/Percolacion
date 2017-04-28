@@ -528,8 +528,8 @@ if (s1>s2)
 		if (*(clase+s1)>=0 || (*(clase+s1)==(-1)*s2)) *(clase+s1)=(-1)*s2;
 			else
 			{ 
-				meterneg(clase,s1,*(clase+s1));
-				meterneg(clase,s1,(-1)*s2);
+				//meterneg(clase,s1,*(clase+s1));
+				//meterneg(clase,s1,(-1)*s2);
 				
 			}
 	}
@@ -540,8 +540,8 @@ if (s1>s2)
 		if (*(clase+s1)>=0 || (*(clase+s1)==(-1)*s1)) *(clase+s2)=(-1)*s1;
 			else
 			{ 
-				meterneg(clase,s2,*(clase+s2));
-				meterneg(clase,s2,(-1)*s1);				
+				//meterneg(clase,s2,*(clase+s2));
+				//meterneg(clase,s2,(-1)*s1);				
 			}
 	}	
 	else 

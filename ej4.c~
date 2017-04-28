@@ -6,18 +6,17 @@
 
 #define P     0.611             // p_c
 #define Z     2700          // iteraciones
-#define N     64          // lado de la red simulada
-#define T     64          // lado de la red simulada
+#define N     10          // lado de la red simulada
 
 
 int main()
 {
 	
-	int n,na,i,*red,div,z,s,l,*per,*clusters,*ns,max ;
-	float  prob,prom, serie ;
+	int n,na,i,*red,div,z,l,*per,*clusters,*ns,max ;
+	float  prob,prom;
 	z=Z;
-	na=N;
-	tao=T;
+	n=N;
+	
 	
 	
 	//prob=P;
@@ -28,14 +27,10 @@ int main()
 
 				      
 	FILE *f;
-	//aca necesito calcular el s0(o sea, el numero de clusters que hay cuando esta cerca de percolar, creo s_0=pc_L/sum(s^1-tao) (no percolantes o percolantes?)
-
-
 	
 	
 	f = fopen("plot.txt", "w");
-
-	for ( s=1 ; s<40 ; na++ )
+	for ( na=n ; na<40 ; na++ )
 	{
 		prob=pcmedio(na,z,div);
 		printf("prob:%f\n",prob);
@@ -65,23 +60,17 @@ int main()
 		  //mostra1(per,na,na,"este es per");
 		  contarclusters(red,clusters,na);
 		  //mostra1(clusters,na,na,"Cant de nodos por cluster");
-		  prob=pcmedio(na,z,div);
-		  
 		  max=0;
-		  serie=0;
 		  for (i=0;i<na*na;i++)
 		  {
 				if (*(clusters+i)) *(ns+*(clusters+i)-1)+=1;
-				serie+=*(cluster+i)**(1-tao)
+				
 		  }   
 			//mostra1(ns,na,na,"este es ns");
-		prom+=(float)ns/z;
+		prom+=(float)max/z;
 			  
 		    
 		}
-		
-		
-
 		printf("Lado = %i M=%f\n",na,prom/(na*na));
 		fprintf(f,"\n %f \t %f",log(na),log(prom/(na*na)));
 		 
