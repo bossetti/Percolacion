@@ -32,3 +32,7 @@ float  diferenciare(int arc, int na, int za,float *res, int div);
 int percolacuenta(int *red,int n, int *per);
 
 void contarclusters(int *red, int *clusters,int n);
+
+float pcmedio( int na, int za,int div);
+
+void meterneg(int *clase, int start, int pos);

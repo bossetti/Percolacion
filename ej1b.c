@@ -6,32 +6,36 @@
 
 #define P     16             // 1/2^P, P=16
 #define Z     2700          // iteraciones
-#define N     16            // lado de la red simulada
+#define N     2           // lado de la red simulada
 
 
 int main()
 {
 	
-	int na,za,i,j;
+	int na,za,i,j, div;
 	float  dif;
-	//FILE *f;
+
+	srand(time(NULL));
+	FILE *f;
 	na=N;
 	za=Z;
-	//f = fopen("plot.txt", "a");
-	//for (i=0; i<4;i++)
-	//{
-	//	na=na*2;
-	//	for	(j=0;j<10;j++)
-	//	{
+	div=1000;	
+	f = fopen("plot.txt", "a");
+	for (i=0; i<7;i++)
+	{
+		na=na*2;
+		for	(j=0;j<3;j++)
+		{
 			
 			
-		  	dif=diferenciare(3,na,za);
-			//printf ( "\n%.3i  \t %.3f   \n ",na, dif);
-			//fprintf(f, "\n%.3i  \t %.3f   \n",na, dif);
+		  	dif=pcmedio(na,za,div);
 			
-	//	}
-	//}
-	//fclose(f);
+			printf ( "\n%.3i  \t %.3f   \n ",na, dif);
+			fprintf(f, "\n%.3i  \t %.3f   \n",na, dif);
+			
+		}
+	}
+	fclose(f);
 }
 
 

@@ -50,7 +50,7 @@ int main(int argc,char *argv[])
 
   for(i=0;i<z;i++)
     {
-      printf("\nEsta es la iteracion :%i",i);
+      //printf("\nEsta es la iteracion :%i",i);
       prob=0.5;
       denominador=2.0;
  
@@ -316,7 +316,7 @@ void  corregir_etiqueta(int *red,int *clase,int n)
 		}
 	}
 							
-	mostra1(red,n,n,"Esta es la matriz final");
+	//mostra1(red,n,n,"Esta es la matriz final");
 }
 
 //int quick_etiqueta(int *red,int *clase,int s1,int s2,int *rel)

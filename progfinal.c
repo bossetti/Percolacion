@@ -8,6 +8,72 @@
 #define Z     27000          // iteraciones
 #define N     5            // lado de la red simulada
 
+
+float pcmedio( int na, int za,int div)
+
+
+{
+
+  int    j,*red,n,z,cantperc;
+  float  prob,diff,k;
+//div es cantidad de pedazos que quiero partirlo
+//diff es el paso diferencial para cada grupo de probabilidades
+  n=na;
+  z=za;
+  
+  diff=1.0/div;
+  //printf("\ndiff=%f\n",diff);
+  
+  red=(int *)malloc(n*n*sizeof(int));
+ 
+	//esta es la probabilidad(empiezo alto porque quiero apurar el calculo)
+  prob=0.45;
+  //esta es la probabilidad donde para
+  k=0;
+  while(k<0.5)
+  {
+		//inicio el loop donde voy recorriendo con pasos diff de 0 a 1
+		cantperc=0; //este es el contador de percolantes promediados en este diferencial
+    //printf("\nEsta es la iteracion :%i",i);
+    prob+=diff;
+    //printf("%f\n",prob);
+
+	      for(j=0;j<z;j++)
+				{
+							
+					llenar(red,n,prob);
+					  	  //mostra1(red,n,n,"Matriz de partida");
+					hoshen(red,n);
+					//mostra1(red,n,n,"Matriz final");
+					cantperc+=percola(red,n);
+								//printf("¿percola?=%i\n",percola(red,n));
+					//printf("cantperc:%i\n",cantperc);
+				
+				 
+				}
+	      //printf("cantper:%i\n",cantperc);
+		k=(float)cantperc/z;
+		//printf("k=%f\n",k);
+		//tal=(float)cantperc/z;
+		//if ((cantperc/z)>0.5) break;
+		//printf("\n %i",cantperc);
+		//printf("\n %f \t %f",prob,tal);
+		//printf("\n %f \t %f",prob,*(res+i));
+	}
+	
+    
+  //prom=(float)cantperc/(float)z;
+ 
+  
+  
+  //printf("\n %f",out);
+        
+  free(red);
+ 
+  
+  return prob;
+}
+
 void contarclusters(int *red, int *clusters, int n)
 
 
@@ -423,6 +489,29 @@ void mostramostro(int *red, int *clase, int n1, int n2, char *k)
 	getchar();  
 }
 
+void meterneg(int *clase, int start, int pos)
+
+{
+	//aca quiero reordenar el vector clase cuando meto los dos negativos ma y mi. Tiene que ser negativo *(clase + pos) 
+	//Tiene que cumplirse que el start este a la derecha
+	int r,rtemp, ma, mi;
+	
+		ma= start;
+		mi=pos;
+	printf("maximo: %i , minimo :%i\n",ma, mi);
+	printf("ESTAUSANDOLO");
+	
+	r=(-1)*start;
+	rtemp=0;
+	while (abs(r)<abs(pos) && r<0)
+	{
+		rtemp=r;
+		r=*(clase+abs(r));
+	}	
+	*(clase+abs(rtemp))=pos;
+	if (r<0) *(clase+abs(pos))=*(clase+abs(r));
+	
+}
 
 
 void etiqueta_falsa(int *red,int *clase,int s1,int s2)
@@ -433,18 +522,27 @@ void etiqueta_falsa(int *red,int *clase,int s1,int s2)
 	//Como precaución para no correr codigo al pedo si en realidad es el mismo cluster, la solucion es trivial
 if (s1>s2) 
 	{	
-		*red=s2;
+		*red=s1;
 		
 			
-		*(clase+s1)=(-1)*s2;
-	
+		if (*(clase+s1)>=0 || (*(clase+s1)==(-1)*s2)) *(clase+s1)=(-1)*s2;
+			else
+			{ 
+				meterneg(clase,s1,*(clase+s1));
+				meterneg(clase,s1,(-1)*s2);
+				
+			}
 	}
 	if (s1<s2)
 	{
-		*red=s1;
+		*red=s2;
 		
-		*(clase+s2)=(-1)*s1;
-		
+		if (*(clase+s1)>=0 || (*(clase+s1)==(-1)*s1)) *(clase+s2)=(-1)*s1;
+			else
+			{ 
+				meterneg(clase,s2,*(clase+s2));
+				meterneg(clase,s2,(-1)*s1);				
+			}
 	}	
 	else 
 	{	
@@ -461,7 +559,7 @@ void  corregir_etiqueta(int *red,int *clase,int n)
 {
 	int k,l,r;
 	
-	//mostramostro(red,clase, n,n,"Estoy corrigiendo");
+	mostramostro(red,clase, n,n,"Estoy corrigiendo");
 	for(k=0;k<n*n;k=k+n)
 	{
 		for(l=0;l<n;l++)
@@ -483,7 +581,7 @@ void  corregir_etiqueta(int *red,int *clase,int n)
 		}
 	}
 							
-	//mostra1(red,n,n,"Esta es la matriz final");
+	mostra1(red,n,n,"Esta es la matriz final");
 }
 
 void  corregir_etiquetaquick(int *red,int *clase,int n)

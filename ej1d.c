@@ -5,57 +5,71 @@
 #include <time.h>
 
 #define P     16             // 1/2^P, P=16
-#define Z     2700          // iteraciones
+#define Z     2700	         // iteraciones
 #define N     2            // lado de la red simulada
-
+#define R     10            // lado de la red simulada
 
 int main()
 {
 	
-	int na,za,i,j,div ;
-	float  prob,diff,*res,k,m, km,norm;
-	div=1000;
-	diff=1.0/div;
- 	
+	int n,na,div,z,l,r ;
+	float  prob,prom,*var, vavar, temp;
+	z=Z;
+	n=N;
+	r=R;
 	
+	var=(float *)malloc(z*sizeof(float));	
+	//prob=P;
+	
+	div=1000;
+ 	
+	srand(time(NULL));
+
+			      
 	FILE *f;
-	na=N;
-	za=Z;
-	f = fopen("plot.txt", "a");
-	for (na=2; na<32;na++)
+	
+	
+	f = fopen("plot.txt", "w");
+	for ( na=n ; na<65 ; na++ )
 	{
 		
-		for	(j=0;j<4;j++)
+		
+		
+		prom=0;
+						
+			
+		for(l=0;l<r;l++)
 		{
+		  prob=pcmedio(na,z,div);    
+		      
+	 	  printf("prob:%f\n",prob);
+		  
+		  *(var+l)=prob;
 			
-			res=(float *)malloc(div*sizeof(float));
-			//Aca defino la parte que agarra y hace operaciones en diferenciare.
-		  	norm=diferenciare(3,na,za,res,div);
-			
-			i=0;
-			k=0;
-			prob=0;
-			m=0;
-			while(i<div)
-			{
-			  prob=prob+diff;
+			prom+=(float)prom/z;
 			  
-			  *(res+i)=*(res+i)/norm;
-			  k=k+prob*diff*(*(res+i));
-			  m=m+prob*prob*diff*(*(res+i));
-			  
-			  //printf("\n %f \t %f \t %f",prob,k,*(res+i));
-			  i=i+1;
-			}
-			km=m-k*k;
-			printf("\n %f \t %f",km,k);
-			//printf ( "\n%.3i  \t %.4f   \n ",na, prob);
-			fprintf(f,"\n %f \t %f",km,k);
-			free (res);
+		    
 		}
-	}
-	fclose(f);
+		for(l=0;l<r;l++)
+		{
+			temp=powf((prom-*(var+l)), 2);
+			vavar=sqrtf((temp)/n);
+		}
+		printf("Lado = %i M=%f\n",na,vavar);
+		fprintf(f,"\n %i \t %f",na,vavar);
+		 
 	
+		
+		
+		//printf("\n %f \t %f",km,k);
+		//printf ( "\n%.3i  \t %.4f   \n ",na, prob);
+		//fprintf(f,"\n %f \t %f",km,k);
+		
+		
+		
+	}
+	
+	free(var);
+	fclose(f);
+	return 0;
 }
-
-
