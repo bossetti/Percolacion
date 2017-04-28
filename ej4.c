@@ -13,77 +13,120 @@
 int main()
 {
 	
-	int n,na,i,*red,div,z,s,l,*per,*clusters,*ns,max ;
-	float  prob,prom, serie ;
+	int na,i,*red,div,z,l,*per,*nsc,*ns,*clusters,r ;
+	float  prob,probc, max,maxc,diff,*permnsc,*permns ;
 	z=Z;
 	na=N;
-	tao=T;
+	
 	
 	
 	//prob=P;
 	
 	div=1000;
- 	
+ 	diff=1.0/1000;
 	srand(time(NULL));
-
-				      
+	probc=0;
+	prob=0;			      
 	FILE *f;
-	//aca necesito calcular el s0(o sea, el numero de clusters que hay cuando esta cerca de percolar, creo s_0=pc_L/sum(s^1-tao) (no percolantes o percolantes?)
+	//aca necesito 
 
 
 	
 	
 	f = fopen("plot.txt", "w");
-
-	for ( s=1 ; s<40 ; na++ )
+	
+	for ( r=0 ; r<div ; r++ )
 	{
-		prob=pcmedio(na,z,div);
-		printf("prob:%f\n",prob);
+		
+		
 		red=(int *)malloc(na*na*sizeof(int));
   		clusters=(int *)malloc(na*na*sizeof(int));
-  	ns=(int *)malloc(na*na*sizeof(int));
+		ns=(int *)malloc(na*na*sizeof(int));
+  		nsc=(int *)malloc(na*na*sizeof(int));
 		per=(int *)malloc(na*na*sizeof(int));
-		
-		prom=0;
-						
+		permnsc=(float *)malloc(na*na*sizeof(float));
+		permns=(float *)malloc(na*na*sizeof(float));	
+
+		prob=prob+diff;
+		printf("prob:%f\n",prob);				
 			
 		for(l=0;l<z;l++)
 		{
 		      
-		      
+		        
 			for (i=0;i<na*na;i++)  
 				{
 					*(clusters+i)=0;
 					*(per+i)=0;
 					*(ns+i)=0;
 				}
-		  llenar(red,na,prob);
-		  //mostra1(red,n,n,"Matriz de partida");
-		  hoshen(red,na);
-		  percolacuenta(red,na,per);
-		  //mostra1(red,na,na,"esta es la red");
-		  //mostra1(per,na,na,"este es per");
-		  contarclusters(red,clusters,na);
-		  //mostra1(clusters,na,na,"Cant de nodos por cluster");
-		  prob=pcmedio(na,z,div);
-		  
-		  max=0;
-		  serie=0;
+			  llenar(red,na,prob);
+			  //mostra1(red,n,n,"Matriz de partida");
+			  hoshen(red,na);
+			  percolacuenta(red,na,per);
+			  //mostra1(red,na,na,"esta es la red");
+			  //mostra1(per,na,na,"este es per");
+			  contarclusters(red,clusters,na);
+			  //mostra1(clusters,na,na,"Cant de nodos por cluster");
+			  
+			  
+			  max=0;
+			  
 		  for (i=0;i<na*na;i++)
 		  {
 				if (*(clusters+i)) *(ns+*(clusters+i)-1)+=1;
-				serie+=*(cluster+i)**(1-tao)
+				*(permns+i)+=(float)*(ns+i)/z;
+				
 		  }   
-			//mostra1(ns,na,na,"este es ns");
-		prom+=(float)ns/z;
+		  
+		//mostra1(ns,na,na,"este es ns");
+		
 			  
 		    
 		}
 		
+		for(l=0;l<z;l++)
+		{
+		      
+		        
+			for (i=0;i<na*na;i++)  
+				{
+					*(clusters+i)=0;
+					*(per+i)=0;
+					*(nsc+i)=0;
+				}
+			  probc=pcmedio(na,z,div);
+			  llenar(red,na,probc);
+			  //mostra1(red,n,n,"Matriz de partida");
+			  hoshen(red,na);
+			  percolacuenta(red,na,per);
+			  //mostra1(red,na,na,"esta es la red");
+			  //mostra1(per,na,na,"este es per");
+			  contarclusters(red,clusters,na);
+			  //mostra1(clusters,na,na,"Cant de nodos por cluster");
+			  
+			  
+			  max=0;
+			  
+		  for (i=0;i<na*na;i++)
+		  {
+				if (*(clusters+i)) *(nsc+*(clusters+i)-1)+=1;
+				*(permns+i)+=(float)*(ns+i)/z;
+				
+		  }  
+		  max=promedio(permns, na,1,30,40);
+		  maxc=promedio(permnsc, na,1,30,40);
+		printf("Lado = %i <ns>=%f<ns>=%f\n",na,max,maxc); 
+		//mostra1(ns,na,na,"este es ns");
+		
+			  
+		    
+		}
+
 		
 
-		printf("Lado = %i M=%f\n",na,prom/(na*na));
-		fprintf(f,"\n %f \t %f",log(na),log(prom/(na*na)));
+		printf("Lado = %f <ns>=%f<ns>=%f\n",prob,max,maxc);
+		fprintf(f,"\n %f \t %f<ns>=%f\n",prob,max,maxc);
 		 
 	
 		
@@ -96,6 +139,8 @@ int main()
 		free(red);
 		free(clusters);
 		free(per);
+		free(permns);
+		free(permnsc);
 	}
 	fclose(f);
 	return 0;

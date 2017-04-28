@@ -9,6 +9,25 @@
 #define N     5            // lado de la red simulada
 
 
+float promedio(float *pointe,int  na,int opcion,int inicio,int final)
+
+{
+	int i,temp,ini, fin;
+	ini=0;
+	fin=0;
+	if (opcion) 
+	{
+		ini=final;
+		fin=final;
+	}
+	temp=0;
+	for(i=ini;i<fin;i++)
+	{
+		temp+=*(pointe+i)/na;
+
+	}
+	return temp;
+}
 float pcmedio( int na, int za,int div)
 
 
@@ -559,7 +578,7 @@ void  corregir_etiqueta(int *red,int *clase,int n)
 {
 	int k,l,r;
 	
-	mostramostro(red,clase, n,n,"Estoy corrigiendo");
+	//mostramostro(red,clase, n,n,"Estoy corrigiendo");
 	for(k=0;k<n*n;k=k+n)
 	{
 		for(l=0;l<n;l++)
@@ -581,7 +600,7 @@ void  corregir_etiqueta(int *red,int *clase,int n)
 		}
 	}
 							
-	mostra1(red,n,n,"Esta es la matriz final");
+	//mostra1(red,n,n,"Esta es la matriz final");
 }
 
 void  corregir_etiquetaquick(int *red,int *clase,int n)

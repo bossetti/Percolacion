@@ -29,5 +29,13 @@ float volare(int argc,int  na,int za);//funcion que hace el 1a
 
 float  diferenciare(int arc, int na, int za,float *res, int div);
 
-int percolacuenta(int *red,int n, int *per)
+int percolacuenta(int *red,int n, int *per);
+
+void contarclusters(int *red, int *clusters,int n);
+
+float pcmedio( int na, int za,int div);
+
+void meterneg(int *clase, int start, int pos);
+
+void promedio(float *pointe,int  na,int opcion,int inicio,int final);
 
