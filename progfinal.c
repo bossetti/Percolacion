@@ -8,23 +8,36 @@
 #define Z     2700          // iteraciones
 #define N     5            // lado de la red simulada
 
-
-//void chequeorapido(int *red,int n)
-//{
-//	int i, j;
-//	for (i=1;i<n*n;i=i+n)
-//	{
-//		for (j=1;j<n-1;j++)
-//		{
-//			if(*(red+i+j)==*(red+i+j+1) && *(red+i+j)==*(red+i+j-1) && *(red+i+j)==*(red+i+j+n) && *(red+i+j)==*(red+i+j+n))
-//			else
-//			{
-//				printf("error");
-//				getchar();
-//			}
-//		}
-//	}
-//}
+int chequeorapido(int *red,int n)
+{
+	int i, j,k,ar,ab,iz,de,a;
+	a=0;
+	for (i=0;i<n*n;i=i+n)
+	{
+		for (j=0;j<n;j++)
+		{
+			k=*(red+i+j);
+			if ((i-n)>=0) ar=*(red+i+j-n);
+			else ar=0;
+			if ((i+n)<n*n) ab=*(red+i+j+n);
+			else ab=0;
+			if ((j-1)>=0) iz=*(red+i+j-1);
+			else iz=0;
+			if ((j+1)<n) de=*(red+i+j+1);
+			else de=0;
+			//mostra1(red,n,n,"\nmatriz");
+			//printf("\nPosicion %i \t %i",i/n +1,j+1);
+			//printf( "\nArriba =%i Izq= %i Abajo=%i Der=%i",ar,iz,ab,de); 
+			if (k && de && k!=de) a=1;
+			if (k && iz && k!=iz) a=1;
+			if (k && ar && k!=ar) a=1;
+			if (k && ab && k!=ab) a=1;
+			
+		}
+	}
+	
+	return a;
+}
 
 
 
@@ -354,7 +367,13 @@ if (*red)
 
 
   corregir_etiqueta(red,clase,n);
-
+  if (chequeorapido(red,n))
+  {
+		
+		printf("ERRORERRORERRORERRORERRORERRORERROR") ;
+		mostramostro(red,clase, n,n,"aca esta la matriz");
+	
+  }
   free(clase);
 
   return frag;
