@@ -5,8 +5,27 @@
 #include "progfinal.h"
 
 #define P     16             // 1/2^P, P=16
-#define Z     27000          // iteraciones
+#define Z     2700          // iteraciones
 #define N     5            // lado de la red simulada
+
+
+//void chequeorapido(int *red,int n)
+//{
+//	int i, j;
+//	for (i=1;i<n*n;i=i+n)
+//	{
+//		for (j=1;j<n-1;j++)
+//		{
+//			if(*(red+i+j)==*(red+i+j+1) && *(red+i+j)==*(red+i+j-1) && *(red+i+j)==*(red+i+j+n) && *(red+i+j)==*(red+i+j+n))
+//			else
+//			{
+//				printf("error");
+//				getchar();
+//			}
+//		}
+//	}
+//}
+
 
 
 float promedio(float *pointe,int  na,int opcion,int inicio,int final)
@@ -28,6 +47,7 @@ float promedio(float *pointe,int  na,int opcion,int inicio,int final)
 	}
 	return temp;
 }
+
 float pcmedio( int na, int za,int div)
 
 
@@ -64,7 +84,7 @@ float pcmedio( int na, int za,int div)
 					  	  //mostra1(red,n,n,"Matriz de partida");
 					hoshen(red,n);
 					//mostra1(red,n,n,"Matriz final");
-					cantperc+=percola(red,n);
+					cantperc+=percolaofi(red,n);
 								//printf("¿percola?=%i\n",percola(red,n));
 					//printf("cantperc:%i\n",cantperc);
 				
@@ -120,7 +140,7 @@ void contarclusters(int *red, int *clusters, int n)
 
 float diferenciare(int arc, int na, int za,float *res, int div)
 {
-
+//ESTA FUNCION TIENE UN ERROR, CORREGIR SI VA A SER UTILIZADA
   int    i,j,*red,n,z,cantperc;
   float  prob,diff,k;
 //div es cantidad de pedazos que quiero partirlo
@@ -160,7 +180,7 @@ float diferenciare(int arc, int na, int za,float *res, int div)
       	  //mostra1(red,n,n,"Matriz de partida");
           hoshen(red,n);
           //mostra1(red,n,n,"Matriz final");
-          cantperc=cantperc+percola(red,n);
+          cantperc+=percola(red,n);
 	  //printf("¿percola?=%i\n",percola(red,n));
           
           
@@ -218,13 +238,14 @@ float volare(int arc,int na,int za)
       denominador=2.0;
  
       srand(time(NULL));
+	
 
       for(j=0;j<P;j++)
         {
           llenar(red,n,prob);
       	  //mostra1(red,n,n,"Matriz de partida");
           hoshen(red,n);
-        
+          
           denominador=2.0*denominador;
 
           if (percola(red,n)) 
@@ -233,7 +254,7 @@ float volare(int arc,int na,int za)
 	     //printf("Percola, Obviously");
 	  }
           else prob+=(1.0/denominador);
-	  //mostra1(red,n,n,"Matriz de partida");
+	  //mostra1(red,n,n,"Matriz final");
 	 
         }
 	prom=prom+prob;
@@ -317,7 +338,9 @@ if (*red)
 
 	    if (s1*s2>0)
 	      {
+		//mostramostro(red, clase, n,n,"Estoy a punto de resolver colision");
 		etiqueta_falsa(red+i+j,clase,s1,s2);
+		
 		//mostramostro(red, clase, n,n,"Aca hubo colision de clusters");
               }
 	    else 
@@ -338,93 +361,6 @@ if (*red)
 }
 
 
-
-int hoshenquick(int *red,int n)
-{
-  /*
-    Esta funcion implementa en algoritmo de Hoshen-Kopelman.
-    Recibe el puntero que apunta a la red y asigna etiquetas 
-    a cada fragmento de red. 
-  */
-
-  int i,j,k,s1,s2,frag; //inicializa todo
-  int *clase;		//empieza una etiqueta clase que guarda las etiquetas que va usando para el cluster que está distinguiendo
-
-  frag=0;	//inicializa la clase temp en 0, esta es la izq del primer elemento
-  
-  
-  clase=(int *)malloc(n*n*sizeof(int));	//reserva el espacio para clase
-
-  for(k=0;k<n*n;k++) *(clase+k)=frag;	//inicializa clase en todos ceros
-  
-  // primer elemento de la red
-
-  s1=0;	//definimos que el valor a izq de la posicion va a ser cero (no existe, no hay periodicidad)
-  frag=2;//primera etiqueta de la clase
-if (*red) 
-{
-	*red=frag;
-	*(clase+frag)=frag;
-}
-	 // Si el primer valor de red esta ocupado, entonces asigno la clase automaticamente
-//mostra1(red, n,n, "Punto de partida");  
-  // primera fila de la red
-
-  for(i=1;i<n;i++) 
-    {
-      if (*(red+i)) 
-         {
-           s1=*(red+i-1);  //etiqueta que vamos a poner despues a este cluster
-           frag=actualizar(red+i,clase,s1,frag);//ponerle el numero de frag(o del que tiene atras) y asignarle esa etiqueta a la posicion de red, SI el anterior es 0 subir la clase usada, es decir subir el return frag en 1 y ponerle esa clase nueva a la posicion de clase
-
-		//mostra1(red, n,n, "Primera fila"); 
-         }
-    }
-
-
-  // el resto de las filas 
-
-  for(i=n;i<n*n;i=i+n)
-    {
-
-      // primer elemento de cada fila
-
-      if (*(red+i)) 
-         {
-           s1=*(red+i-n); 
-           frag=actualizar(red+i,clase,s1,frag);
-	
-		//mostra1(red,n,n, "Cuerpo ppal");
-         }
-	//aca comienza con el codigo en todas las filas
-
-      for(j=1;j<n;j++)
-	if (*(red+i+j))
-	  {
-	    s1=*(red+i+j-1); 
-            s2=*(red+i+j-n);
-
-	    if (s1*s2>0)
-	      {
-		etiqueta_falsa(red+i+j,clase,s1,s2);
-		//mostramostro(red, clase, n,n,"Aca hubo colision de clusters");
-              }
-	    else 
-	      { if (s1!=0) frag=actualizar(red+i+j,clase,s1,frag);
-	        else       frag=actualizar(red+i+j,clase,s2,frag);
-		
-		//mostra1(red, n,n, "Cuerpo ppal");
-	      }
-	  }
-    }
-
-
-  corregir_etiquetaquick(red,clase,n);
-
-  free(clase);
-
-  return frag;
-}
 
 
 int actualizar(int *red,int *clase,int s, int frag)
@@ -508,29 +444,35 @@ void mostramostro(int *red, int *clase, int n1, int n2, char *k)
 	getchar();  
 }
 
-void meterneg(int *clase, int start, int pos)
+void meterneg(int *clase, int pos, int start)
 
 {
 	//aca quiero reordenar el vector clase cuando meto los dos negativos ma y mi. Tiene que ser negativo *(clase + pos) 
 	//Tiene que cumplirse que el start este a la derecha
 	int r,rtemp, ma, mi;
 	
-		ma= start;
+		ma=start;
 		mi=pos;
-	printf("maximo: %i , minimo :%i\n",ma, mi);
-	printf("ESTAUSANDOLO");
+	//printf("maximo: %i , minimo :%i\n",ma, mi);
+	//printf("ESTAUSANDOLO\n");
 	
-	r=(-1)*start;
+	r=ma;
 	rtemp=0;
-	while (abs(r)<abs(pos) && r<0)
+	
+	while (r<=pos && r<0)
 	{
+		//printf("Antes este es rtemp :%i y r:%i\n",rtemp,r);
 		rtemp=r;
 		r=*(clase+abs(r));
+		//printf("Este es rtemp :%i y r:%i\n",rtemp,r);
+		  
 	}	
-	*(clase+abs(rtemp))=pos;
-	if (r<0) *(clase+abs(pos))=*(clase+abs(r));
+	if (abs(rtemp)!=abs(mi)) *(clase+abs(rtemp))=mi;
+	if (r<0) *(clase+abs(mi))=r;
 	
 }
+
+
 
 
 void etiqueta_falsa(int *red,int *clase,int s1,int s2)
@@ -539,7 +481,7 @@ void etiqueta_falsa(int *red,int *clase,int s1,int s2)
 	
 	
 	//Como precaución para no correr codigo al pedo si en realidad es el mismo cluster, la solucion es trivial
-if (s1>s2) 
+	if (s1>s2) 
 	{	
 		*red=s1;
 		
@@ -547,20 +489,41 @@ if (s1>s2)
 		if (*(clase+s1)>=0 || (*(clase+s1)==(-1)*s2)) *(clase+s1)=(-1)*s2;
 			else
 			{ 
-				//meterneg(clase,s1,*(clase+s1));
-				//meterneg(clase,s1,(-1)*s2);
-				
+				if (*(clase+s1)>(-1)*s2)
+				{
+					//printf("1");
+					meterneg(clase,*(clase+s1),(-1)*s2);
+					*(clase+s1)=(-1)*s2;
+					
+				}
+				else
+				{
+					//printf("2");
+					meterneg(clase,(-1)*s2,*(clase+s1));
+					
+				}
 			}
 	}
 	if (s1<s2)
 	{
 		*red=s2;
 		
-		if (*(clase+s1)>=0 || (*(clase+s1)==(-1)*s1)) *(clase+s2)=(-1)*s1;
+		if (*(clase+s2)>=0 || (*(clase+s2)==(-1)*s1)) *(clase+s2)=(-1)*s1;
 			else
 			{ 
-				//meterneg(clase,s2,*(clase+s2));
-				//meterneg(clase,s2,(-1)*s1);				
+				if (*(clase+s2)>(-1)*s1)
+				{
+					//printf("3");
+					
+					meterneg(clase,*(clase+s2),(-1)*s1);
+					*(clase+s2)=(-1)*s1;
+				}
+				else
+				{
+					//printf("4");
+					meterneg(clase,(-1)*s1,*(clase+s2));
+					
+				}
 			}
 	}	
 	else 
@@ -603,60 +566,6 @@ void  corregir_etiqueta(int *red,int *clase,int n)
 	//mostra1(red,n,n,"Esta es la matriz final");
 }
 
-void  corregir_etiquetaquick(int *red,int *clase,int n)
-
-{
-	//esta funcion solo recorre el perimetro, para chequear si percola o no rapidamente
-	int k,l,r;
-	k=n*n-n;
-	//mostramostro(red,clase, n,n,"Estoy corrigiendo");
-	for(k=0;k<n+1;k=k+n-1)
-	{
-		for(l=0;l<n*n;l=l+n)
-		{	
-			//printf(" chequeando etiqueta : %i\n",k+l+1);
-			if (*(red+k+l)!=0)
-			{
-				r=*(clase+*(red+k+l));
-				
-				while (r<0)
-					{
-						//printf(" chequeando colisión : %i\n",r);
-						r=*(clase+abs(r));
-						
-						//printf(" Saltando a : %i\n",r);
-						//mostra1(red,n,n,"asi estamos hasta aca");
-					}
-				*(red+k+l)=r;
-			}
-		}
-	}
-
-
-	for(k=0;k<n*n;k=k+n*n-n)
-	{
-		for(l=1;l<(n-1);l=l+1)
-		{	
-			//printf(" chequeando etiqueta : %i\n",k+l+1);
-			if (*(red+k+l)!=0)
-			{
-				r=*(clase+*(red+k+l));
-				
-				while (r<0)
-					{
-						//printf(" chequeando colisión : %i\n",r);
-						r=*(clase+abs(r));
-						
-						//printf(" Saltando a : %i\n",r);
-						//mostra1(red,n,n,"asi estamos hasta aca");
-					}
-				*(red+k+l)=r;
-			}
-		}
-	}
-							
-	//mostra1(red,n,n,"Esta es la matriz final");
-}
 
 
 //int quick_etiqueta(int *red,int *clase,int s1,int s2,int *rel)
@@ -781,6 +690,41 @@ int percola (int *red,int n)
 	return a;
 }
 		
+int percolaofi(int *red,int n)
+{
+	int i,j,a,tam;
+	a=0;
+	tam=n*n;
+	//mostra1(red,n,n,"\nesta es la matriz");
+	for (i=0;i<n;i++)
+	{
+		//printf("\n%i \t",*(red+i));
+		for (j=0;j<n;j++)
+		{
+			//printf("%i \t %i",i+1,tam-j);
+			if ((*(red+i)==*(red+tam-j-1))&& *(red+i)!=0 && *(red+tam-j-1)!=0) a=1;
+			//printf("  %i\n",*(red+tam-j-1));
+			
+		}
+	}
+	if(a==0)
+	{
+		for (i=0;i<n*n;i+=n)
+		{
+			//printf("\n%i \t",*(red+i));
+			for (j=0;j<n*n;j+=n)
+			{
+				//printf("%i \t %i",i+1,tam-j);
+				if ((*(red+i)==*(red+tam-j-1)) && *(red+i)!=0 && *(red+tam-j-1)!=0) a=1;
+				//printf("  %i\n",*(red+tam-j-1));
+				
+			}
+		}
+	}
+	//if (a) printf("PERCOLA");
+	//getchar();
+	return a;
+}
 
 int percolacuenta (int *red,int n, int *per)
 {
@@ -898,4 +842,148 @@ int percolacuenta (int *red,int n, int *per)
 			 
 	
 	 
+
+int hoshenquick(int *red,int n)
+{
+  /*
+    Esta funcion implementa en algoritmo de Hoshen-Kopelman.
+    Recibe el puntero que apunta a la red y asigna etiquetas 
+    a cada fragmento de red. 
+  */
+
+  int i,j,k,s1,s2,frag; //inicializa todo
+  int *clase;		//empieza una etiqueta clase que guarda las etiquetas que va usando para el cluster que está distinguiendo
+
+  frag=0;	//inicializa la clase temp en 0, esta es la izq del primer elemento
+  
+  
+  clase=(int *)malloc(n*n*sizeof(int));	//reserva el espacio para clase
+
+  for(k=0;k<n*n;k++) *(clase+k)=frag;	//inicializa clase en todos ceros
+  
+  // primer elemento de la red
+
+  s1=0;	//definimos que el valor a izq de la posicion va a ser cero (no existe, no hay periodicidad)
+  frag=2;//primera etiqueta de la clase
+if (*red) 
+{
+	*red=frag;
+	*(clase+frag)=frag;
+}
+	 // Si el primer valor de red esta ocupado, entonces asigno la clase automaticamente
+//mostra1(red, n,n, "Punto de partida");  
+  // primera fila de la red
+
+  for(i=1;i<n;i++) 
+    {
+      if (*(red+i)) 
+         {
+           s1=*(red+i-1);  //etiqueta que vamos a poner despues a este cluster
+           frag=actualizar(red+i,clase,s1,frag);//ponerle el numero de frag(o del que tiene atras) y asignarle esa etiqueta a la posicion de red, SI el anterior es 0 subir la clase usada, es decir subir el return frag en 1 y ponerle esa clase nueva a la posicion de clase
+
+		//mostra1(red, n,n, "Primera fila"); 
+         }
+    }
+
+
+  // el resto de las filas 
+
+  for(i=n;i<n*n;i=i+n)
+    {
+
+      // primer elemento de cada fila
+
+      if (*(red+i)) 
+         {
+           s1=*(red+i-n); 
+           frag=actualizar(red+i,clase,s1,frag);
+	
+		//mostra1(red,n,n, "Cuerpo ppal");
+         }
+	//aca comienza con el codigo en todas las filas
+
+      for(j=1;j<n;j++)
+	if (*(red+i+j))
+	  {
+	    s1=*(red+i+j-1); 
+            s2=*(red+i+j-n);
+
+	    if (s1*s2>0)
+	      {
+		etiqueta_falsa(red+i+j,clase,s1,s2);
+		//mostramostro(red, clase, n,n,"Aca hubo colision de clusters");
+              }
+	    else 
+	      { if (s1!=0) frag=actualizar(red+i+j,clase,s1,frag);
+	        else       frag=actualizar(red+i+j,clase,s2,frag);
+		
+		//mostra1(red, n,n, "Cuerpo ppal");
+	      }
+	  }
+    }
+
+
+  corregir_etiquetaquick(red,clase,n);
+
+  free(clase);
+
+  return frag;
+}
+
+
+void  corregir_etiquetaquick(int *red,int *clase,int n)
+
+{
+	//esta funcion solo recorre el perimetro, para chequear si percola o no rapidamente
+	int k,l,r;
+	k=n*n-n;
+	//mostramostro(red,clase, n,n,"Estoy corrigiendo");
+	for(k=0;k<n+1;k=k+n-1)
+	{
+		for(l=0;l<n*n;l=l+n)
+		{	
+			//printf(" chequeando etiqueta : %i\n",k+l+1);
+			if (*(red+k+l)!=0)
+			{
+				r=*(clase+*(red+k+l));
+				
+				while (r<0)
+					{
+						//printf(" chequeando colisión : %i\n",r);
+						r=*(clase+abs(r));
+						
+						//printf(" Saltando a : %i\n",r);
+						//mostra1(red,n,n,"asi estamos hasta aca");
+					}
+				*(red+k+l)=r;
+			}
+		}
+	}
+
+
+	for(k=0;k<n*n;k=k+n*n-n)
+	{
+		for(l=1;l<(n-1);l=l+1)
+		{	
+			//printf(" chequeando etiqueta : %i\n",k+l+1);
+			if (*(red+k+l)!=0)
+			{
+				r=*(clase+*(red+k+l));
+				
+				while (r<0)
+					{
+						//printf(" chequeando colisión : %i\n",r);
+						r=*(clase+abs(r));
+						
+						//printf(" Saltando a : %i\n",r);
+						//mostra1(red,n,n,"asi estamos hasta aca");
+					}
+				*(red+k+l)=r;
+			}
+		}
+	}
+							
+	//mostra1(red,n,n,"Esta es la matriz final");
+}
+
 	

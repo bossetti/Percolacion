@@ -5,9 +5,9 @@
 #include <time.h>
 
 #define P     16             // 1/2^P, P=16
-#define Z     2700          // iteraciones
+#define Z     5          // iteraciones
 #define N     2           // lado de la red simulada
-
+#define D     1000  
 
 int main()
 {
@@ -19,9 +19,9 @@ int main()
 	FILE *f;
 	na=N;
 	za=Z;
-	div=1000;	
+	div=D;	
 	f = fopen("plot.txt", "a");
-	for (i=0; i<7;i++)
+	for (i=0; i<10;i++)
 	{
 		na=na*2;
 		for	(j=0;j<3;j++)
