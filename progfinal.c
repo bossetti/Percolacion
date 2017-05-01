@@ -98,6 +98,7 @@ float pcmedio( int na, int za,int div)
 					hoshen(red,n);
 					//mostra1(red,n,n,"Matriz final");
 					cantperc+=percolaofi(red,n);
+					//if (percolaofi(red,n)!=percola(red,n)) printf("ERRORERROR , uno de los dos programas de percolacion no esta bien");
 								//printf("¿percola?=%i\n",percola(red,n));
 					//printf("cantperc:%i\n",cantperc);
 				
@@ -140,9 +141,7 @@ void contarclusters(int *red, int *clusters, int n)
 			if (*(red+k+l)!=0)
 			{
 				*(clusters+*(red+k+l)-1)+=1;
-				
-					
-				
+										
 			}
 		}
 	}
@@ -447,7 +446,7 @@ void mostra1(int *red, int n1, int n2, char *k)
 	
 	
 	 
-	getchar();  
+	//getchar();  
 }
 
 void mostramostro(int *red, int *clase, int n1, int n2, char *k)
@@ -466,43 +465,64 @@ void mostramostro(int *red, int *clase, int n1, int n2, char *k)
 void meterneg(int *clase, int start, int nuevo)
 
 {
-	//aca quiero reordenar el vector clase cuando meto los dos negativos ma y mi. Tiene que ser negativo *(clase + pos) 
-	//Tiene que cumplirse que el start este a la derecha
-	int r,rtemp, ma, mi;
+	//Meto start como la etiqueta mayor, y nuevo como la menor, la funcion identifica cual de sus etiquetas es menor, es decir 
+	//ma y mi : etiquetas maxima y minima (en valor absoluto)
+	//start y nuevo: posiciones YA ORDENADAS donde start es la posicion mas alta y nuevo es la posicion que tengo q intercalar
+
+	int r,rtemp, ma, mi,k;
 	
 	
 
-	if (*(clase+start)>*(clase+p2))
+	if (*(clase+start)<=(-1)*nuevo)
 	{
 		ma=*(clase+start);
 		mi=(-1)*nuevo;
 	}
-	if (*(clase+start)<*(clase+end))
+	if (*(clase+start)>(-1)*nuevo)
 	{
 		ma=(-1)*nuevo;
 		mi=*(clase+start);
 	}
-	if (ma>=0 || (ma==mi)) *(clase+start)=(-1)*nuevo;
+	if (*(clase+start)>=0 || (ma==mi)) *(clase+start)=(-1)*nuevo;
 	else
 	{ 
-		//printf("maximo: %i , minimo :%i\n",ma, mi);
+		//printf("COMENZANDO start: %i , nuevo :%i\n",start, nuevo);
+		//printf("Esta colapsando estos tres: inicial:%i maximo: %i , minimo :%i\n",start,abs(ma), abs(mi));
 		//printf("ESTAUSANDOLO\n");
-		*(clase+p1)=ma;
+		*(clase+start)=ma;
 		r=ma;
 		rtemp=0;
-	
-		while (r<=p2 && r<0)
+		k=0;
+		//mostra1(clase,1,start+1,"clase antes");
+		while (k==0)
 		{
 			//printf("Antes este es rtemp :%i y r:%i\n",rtemp,r);
 			rtemp=r;
 			r=*(clase+abs(r));
 			//printf("Este es rtemp :%i y r:%i\n",rtemp,r);
+			if (r>=mi || r>0)
+			{
+				k=1;
+				*(clase+abs(rtemp))=mi;
+				//printf("Reemplazando...");
+				//printf("Este es rtemp :%i y mi:%i\n",rtemp,mi);
+				if (r==mi)r=0; 
+				//mostra1(clase,1,start+1,"clase despues");
+				
+			}
+			
+			
+			
+			
 			  
 		}	
-		if (abs(rtemp)!=abs(mi)) *(clase+abs(rtemp))=mi;
-		if ((r<0) && (*(clase+p2))>0) *(clase+p2)=r;
-		printf("\nEste es a donde apunta la pos final:%i este es rtemp=%i este es r=%", 
-		if ((r<0) && (*(clase+p2))<0) meterneg(clase,*(clase+p2)<0,r);
+		//printf("\nEste es a donde apunta la pos final:%i este es rtemp=%i este es r=%i\n", *(clase+nuevo),rtemp,r);
+		if (r<0) 
+		{
+			meterneg(clase, abs(mi),abs(r));
+			//printf("\nRecursionRecursionRecursionRecursion");
+		}
+		
 	}
 	
 }
@@ -521,7 +541,7 @@ void etiqueta_falsa(int *red,int *clase,int s1,int s2)
 		*red=s1;
 				
 		
-		meterneg(clase,s2,s1));
+		meterneg(clase,s1,s2);
 					
 				
 	}
@@ -529,7 +549,7 @@ void etiqueta_falsa(int *red,int *clase,int s1,int s2)
 	{
 		*red=s2;
 		
-		meterneg(clase,s1,s2));
+		meterneg(clase,s2,s1);
 					
 		
 		
