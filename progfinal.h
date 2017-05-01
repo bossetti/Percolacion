@@ -35,7 +35,7 @@ void contarclusters(int *red, int *clusters,int n);
 
 float pcmedio( int na, int za,int div);
 
-void meterneg(int *clase, int start, int pos);
+void meterneg(int *clase, int start, int nuevo);
 
 float promedio(float *pointe,int  na,int opcion,int inicio,int final);
 

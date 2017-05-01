@@ -371,8 +371,8 @@ if (*red)
   {
 		
 		printf("ERRORERRORERRORERRORERRORERRORERROR") ;
-		mostramostro(red,clase, n,n,"aca esta la matriz");
-	
+		mostra1(red, n,n,"aca esta la matriz");
+		mostra1(clase, n,n,"aca estan las etiquetas");
   }
   free(clase);
 
@@ -463,31 +463,47 @@ void mostramostro(int *red, int *clase, int n1, int n2, char *k)
 	getchar();  
 }
 
-void meterneg(int *clase, int pos, int start)
+void meterneg(int *clase, int start, int nuevo)
 
 {
 	//aca quiero reordenar el vector clase cuando meto los dos negativos ma y mi. Tiene que ser negativo *(clase + pos) 
 	//Tiene que cumplirse que el start este a la derecha
 	int r,rtemp, ma, mi;
 	
-		ma=start;
-		mi=pos;
-	//printf("maximo: %i , minimo :%i\n",ma, mi);
-	//printf("ESTAUSANDOLO\n");
 	
-	r=ma;
-	rtemp=0;
-	
-	while (r<=pos && r<0)
+
+	if (*(clase+start)>*(clase+p2))
 	{
-		//printf("Antes este es rtemp :%i y r:%i\n",rtemp,r);
-		rtemp=r;
-		r=*(clase+abs(r));
-		//printf("Este es rtemp :%i y r:%i\n",rtemp,r);
-		  
-	}	
-	if (abs(rtemp)!=abs(mi)) *(clase+abs(rtemp))=mi;
-	if (r<0) *(clase+abs(mi))=r;
+		ma=*(clase+start);
+		mi=(-1)*nuevo;
+	}
+	if (*(clase+start)<*(clase+end))
+	{
+		ma=(-1)*nuevo;
+		mi=*(clase+start);
+	}
+	if (ma>=0 || (ma==mi)) *(clase+start)=(-1)*nuevo;
+	else
+	{ 
+		//printf("maximo: %i , minimo :%i\n",ma, mi);
+		//printf("ESTAUSANDOLO\n");
+		*(clase+p1)=ma;
+		r=ma;
+		rtemp=0;
+	
+		while (r<=p2 && r<0)
+		{
+			//printf("Antes este es rtemp :%i y r:%i\n",rtemp,r);
+			rtemp=r;
+			r=*(clase+abs(r));
+			//printf("Este es rtemp :%i y r:%i\n",rtemp,r);
+			  
+		}	
+		if (abs(rtemp)!=abs(mi)) *(clase+abs(rtemp))=mi;
+		if ((r<0) && (*(clase+p2))>0) *(clase+p2)=r;
+		printf("\nEste es a donde apunta la pos final:%i este es rtemp=%i este es r=%", 
+		if ((r<0) && (*(clase+p2))<0) meterneg(clase,*(clase+p2)<0,r);
+	}
 	
 }
 
@@ -503,47 +519,20 @@ void etiqueta_falsa(int *red,int *clase,int s1,int s2)
 	if (s1>s2) 
 	{	
 		*red=s1;
+				
 		
-			
-		if (*(clase+s1)>=0 || (*(clase+s1)==(-1)*s2)) *(clase+s1)=(-1)*s2;
-			else
-			{ 
-				if (*(clase+s1)>(-1)*s2)
-				{
-					//printf("1");
-					meterneg(clase,*(clase+s1),(-1)*s2);
-					*(clase+s1)=(-1)*s2;
+		meterneg(clase,s2,s1));
 					
-				}
-				else
-				{
-					//printf("2");
-					meterneg(clase,(-1)*s2,*(clase+s1));
-					
-				}
-			}
+				
 	}
 	if (s1<s2)
 	{
 		*red=s2;
 		
-		if (*(clase+s2)>=0 || (*(clase+s2)==(-1)*s1)) *(clase+s2)=(-1)*s1;
-			else
-			{ 
-				if (*(clase+s2)>(-1)*s1)
-				{
-					//printf("3");
+		meterneg(clase,s1,s2));
 					
-					meterneg(clase,*(clase+s2),(-1)*s1);
-					*(clase+s2)=(-1)*s1;
-				}
-				else
-				{
-					//printf("4");
-					meterneg(clase,(-1)*s1,*(clase+s2));
-					
-				}
-			}
+		
+		
 	}	
 	else 
 	{	
