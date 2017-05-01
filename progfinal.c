@@ -44,9 +44,11 @@ int chequeorapido(int *red,int n)
 float promedio(float *pointe,int  na,int opcion,int inicio,int final)
 
 {
-	int i,temp,ini, fin;
+	//Esta es una funcion que promedia un pointer, con la opcion de promediar solo seccion del mismo.
+	int i,ini, fin;
+	float temp;
 	ini=0;
-	fin=0;
+	fin=na;
 	if (opcion) 
 	{
 		ini=final;
@@ -97,7 +99,7 @@ float pcmedio( int na, int za,int div)
 					  	  //mostra1(red,n,n,"Matriz de partida");
 					hoshen(red,n);
 					//mostra1(red,n,n,"Matriz final");
-					cantperc+=percolaofi(red,n);
+					cantperc+=percola(red,n);
 					//if (percolaofi(red,n)!=percola(red,n)) printf("ERRORERROR , uno de los dos programas de percolacion no esta bien");
 								//printf("¿percola?=%i\n",percola(red,n));
 					//printf("cantperc:%i\n",cantperc);
@@ -131,19 +133,18 @@ void contarclusters(int *red, int *clusters, int n)
 
 
 {
-	int k,l;
+	int k;
 	
 	//mostramostro(red,clase, n,n,"Estoy corrigiendo");
-	for(k=0;k<n*n;k=k+n)
+	for(k=0;k<n*n;k++)
 	{
-		for(l=0;l<n;l++)
-		{	
-			if (*(red+k+l)!=0)
+			
+			if (*(red+k)!=0)
 			{
-				*(clusters+*(red+k+l)-1)+=1;
+				*(clusters+*(red+k)-1)+=1;
 										
 			}
-		}
+		
 	}
 							
 	//mostra1(red,n,n,"Esta es la matriz final");
@@ -366,13 +367,13 @@ if (*red)
 
 
   corregir_etiqueta(red,clase,n);
-  if (chequeorapido(red,n))
-  {
+  //if (chequeorapido(red,n))
+  //{
 		
-		printf("ERRORERRORERRORERRORERRORERRORERROR") ;
-		mostra1(red, n,n,"aca esta la matriz");
-		mostra1(clase, n,n,"aca estan las etiquetas");
-  }
+//		printf("ERRORERRORERRORERRORERRORERRORERROR") ;
+//		mostra1(red, n,n,"aca esta la matriz");
+//		mostra1(clase, n,n,"aca estan las etiquetas");
+//  }
   free(clase);
 
   return frag;
@@ -446,7 +447,7 @@ void mostra1(int *red, int n1, int n2, char *k)
 	
 	
 	 
-	//getchar();  
+	getchar();  
 }
 
 void mostramostro(int *red, int *clase, int n1, int n2, char *k)

@@ -16,10 +16,6 @@ int main()
 	float  prob,prom,diff;
 	z=Z;
 	n=N;
-	
-	
-	
-	
 
 	div=100;
 	diff=1.0/div;

@@ -1,61 +1,7 @@
-La probabilidad: 0.400000 el 1a es: 0.505505 el 1b es :0.000000
-La probabilidad: 0.410000 el 1a es: 0.505505 el 1b es :0.000000
-La probabilidad: 0.420000 el 1a es: 0.505505 el 1b es :0.000000
-La probabilidad: 0.430000 el 1a es: 0.505505 el 1b es :0.000000
-La probabilidad: 0.440000 el 1a es: 0.505505 el 1b es :0.000000
-La probabilidad: 0.450000 el 1a es: 0.505505 el 1b es :0.000000
-La probabilidad: 0.460000 el 1a es: 0.505505 el 1b es :0.000000
-La probabilidad: 0.470000 el 1a es: 0.505505 el 1b es :0.000000
-La probabilidad: 0.480000 el 1a es: 0.505505 el 1b es :0.000000
-La probabilidad: 0.490000 el 1a es: 0.505505 el 1b es :0.000000
-La probabilidad: 0.500000 el 1a es: 0.505505 el 1b es :0.000000
-La probabilidad: 0.510000 el 1a es: 0.505505 el 1b es :0.000000
-La probabilidad: 0.520000 el 1a es: 0.505505 el 1b es :0.000000
-La probabilidad: 0.530000 el 1a es: 0.505505 el 1b es :0.000000
-La probabilidad: 0.540000 el 1a es: 0.505505 el 1b es :0.000000
-La probabilidad: 0.550000 el 1a es: 0.505505 el 1b es :0.000000
-La probabilidad: 0.560000 el 1a es: 0.505505 el 1b es :0.000000
-La probabilidad: 0.570000 el 1a es: 0.505505 el 1b es :0.000000
-La probabilidad: 0.580000 el 1a es: 0.505505 el 1b es :0.000000
-La probabilidad: 0.590000 el 1a es: 0.505505 el 1b es :0.000000
-La probabilidad: 0.600000 el 1a es: 0.505505 el 1b es :0.000000
-La probabilidad: 0.610000 el 1a es: 0.505505 el 1b es :0.000000
-La probabilidad: 0.620000 el 1a es: 0.505505 el 1b es :0.000000
-La probabilidad: 0.630000 el 1a es: 0.505505 el 1b es :0.000000
-La probabilidad: 0.640000 el 1a es: 0.505505 el 1b es :0.000000
-La probabilidad: 0.650000 el 1a es: 0.505505 el 1b es :0.000000
-La probabilidad: 0.660000 el 1a es: 0.505505 el 1b es :0.000370
-La probabilidad: 0.670000 el 1a es: 0.505505 el 1b es :0.000370
-La probabilidad: 0.680000 el 1a es: 0.505505 el 1b es :0.000370
-La probabilidad: 0.690000 el 1a es: 0.505505 el 1b es :0.000370
-La probabilidad: 0.700000 el 1a es: 0.505505 el 1b es :0.000370
-La probabilidad: 0.710000 el 1a es: 0.505505 el 1b es :0.000370
-La probabilidad: 0.720000 el 1a es: 0.505505 el 1b es :0.000741
-La probabilidad: 0.730000 el 1a es: 0.505505 el 1b es :0.001111
-La probabilidad: 0.740000 el 1a es: 0.505505 el 1b es :0.001481
-La probabilidad: 0.750000 el 1a es: 0.505505 el 1b es :0.001852
-La probabilidad: 0.760000 el 1a es: 0.505505 el 1b es :0.001852
-La probabilidad: 0.770000 el 1a es: 0.505505 el 1b es :0.003333
-La probabilidad: 0.780000 el 1a es: 0.505505 el 1b es :0.004815
-La probabilidad: 0.790000 el 1a es: 0.505505 el 1b es :0.007778
-La probabilidad: 0.800000 el 1a es: 0.505505 el 1b es :0.011111
-La probabilidad: 0.810000 el 1a es: 0.505505 el 1b es :0.015185
-La probabilidad: 0.820000 el 1a es: 0.505505 el 1b es :0.018889
-La probabilidad: 0.830000 el 1a es: 0.505505 el 1b es :0.031111
-La probabilidad: 0.840000 el 1a es: 0.505505 el 1b es :0.043333
-La probabilidad: 0.850000 el 1a es: 0.505505 el 1b es :0.060000
-La probabilidad: 0.860000 el 1a es: 0.505505 el 1b es :0.078889
-La probabilidad: 0.870000 el 1a es: 0.505505 el 1b es :0.096296
-La probabilidad: 0.880000 el 1a es: 0.505505 el 1b es :0.120741
-La probabilidad: 0.890000 el 1a es: 0.505505 el 1b es :0.158148
-La probabilidad: 0.900000 el 1a es: 0.505505 el 1b es :0.192593
-La probabilidad: 0.910000 el 1a es: 0.505505 el 1b es :0.244074
-La probabilidad: 0.920000 el 1a es: 0.505505 el 1b es :0.296296
-La probabilidad: 0.930000 el 1a es: 0.505505 el 1b es :0.360370
-La probabilidad: 0.940000 el 1a es: 0.505505 el 1b es :0.422593
-La probabilidad: 0.950000 el 1a es: 0.505505 el 1b es :0.482222
-La probabilidad: 0.960000 el 1a es: 0.505505 el 1b es :0.551481
-La probabilidad: 0.969999 el 1a es: 0.505505 el 1b es :0.613333
-La probabilidad: 0.979999 el 1a es: 0.505505 el 1b es :0.678148
-La probabilidad: 0.989999 el 1a es: 0.505505 el 1b es :0.731481
-La probabilidad: 0.999999 el 1a es: 0.505505 el 1b es :0.781482
+ 2	  0.390606 
+ 4	  0.281250 
+ 8	  0.556006 
+ 16	  0.591130 
+ 32	  0.578433 
+ 64	  0.580982 
+ 128	  0.585850 

@@ -5,15 +5,15 @@
 #include <time.h>
 
 #define P     16             // 1/2^P, P=16
-#define Z     2700	         // iteraciones
+#define Z     2700	         // iteraciones dentro de las funciones
 #define N     2            // lado de la red simulada
-#define R     10            // lado de la red simulada
+#define R     2700           // numero de iteraciones para la dispersion
 
 int main()
 {
 	
 	int n,na,div,z,l,r ;
-	float  prob,prom,*var, vavar, temp;
+	float  prom,*var, vavar, temp;
 	z=Z;
 	n=N;
 	r=R;
@@ -21,7 +21,7 @@ int main()
 	var=(float *)malloc(z*sizeof(float));	
 	//prob=P;
 	
-	div=1000;
+	div=100;
  	
 	srand(time(NULL));
 
@@ -29,7 +29,7 @@ int main()
 	FILE *f;
 	
 	
-	f = fopen("plot.txt", "w");
+	f = fopen("plot1d.txt", "w");
 	for ( na=n ; na<65 ; na++ )
 	{
 		
@@ -40,23 +40,19 @@ int main()
 			
 		for(l=0;l<r;l++)
 		{
-		  prob=pcmedio(na,z,div);    
-		      
-	 	  printf("prob:%f\n",prob);
-		  
-		  *(var+l)=prob;
-			
-			prom+=(float)prom/z;
-			  
-		    
+		  *(var+l)=pcmedio(na,1,div);    
+		  	 	  		    
 		}
+		prom=promedio(var,z,0,0,0);
+		temp=0;
 		for(l=0;l<r;l++)
 		{
-			temp=powf((prom-*(var+l)), 2);
-			vavar=sqrtf((temp)/n);
+			temp+=powf((prom-*(var+l)), 2);
+			
 		}
-		printf("Lado = %i M=%f\n",na,vavar);
-		fprintf(f,"\n %i \t %f",na,vavar);
+		vavar=sqrtf((temp)/na);
+		printf("Pc(L) = %f sigma=%f\n",prom,vavar);
+		fprintf(f,"\n %f \t %f",prom,vavar);
 		 
 	
 		
