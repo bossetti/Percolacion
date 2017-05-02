@@ -107,7 +107,7 @@ int main()
 			  contarclusters(red,clusters,na);
 			  //mostra1(clusters,1,na,"Cant de nodos por etiqueta de cluster");
 			  contarclusters(clusters,nsc,na);
-			  mostra1(ns,na,na,"Cant de clusters de tamaño s");
+			  //mostra1(ns,na,na,"Cant de clusters de tamaño s");
 		  	
 			  
 			  
