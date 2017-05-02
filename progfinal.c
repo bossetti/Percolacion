@@ -63,6 +63,30 @@ float promedio(float *pointe,int  na,int opcion,int inicio,int final)
 	return temp;
 }
 
+
+
+float promedioi(int *pointe,int  na,int opcion,int inicio,int final)
+
+{
+	//Esta es una funcion que promedia un pointer, con la opcion de promediar solo seccion del mismo.
+	int i,ini, fin;
+	float temp;
+	ini=0;
+	fin=na;
+	if (opcion) 
+	{
+		ini=final;
+		fin=final;
+	}
+	temp=0;
+	for(i=ini;i<fin;i++)
+	{
+		temp+=(float)*(pointe+i)/na;
+
+	}
+	return temp;
+}
+
 float pcmedio( int na, int za,int div)
 
 
@@ -813,7 +837,7 @@ int percolacuenta (int *red,int n, int *per)
 		if ((*(primer+i))&&(*(segundo+i))) 
 			{
 				*(per+i)=1;
-				a=i+1;
+				a=1;
 				//printf("PERCOLA de arriba abajo");
 			}
 		*(primer+i)=0;
@@ -854,7 +878,7 @@ int percolacuenta (int *red,int n, int *per)
 			if ((*(primer+i))&&(*(segundo+i))) 
 				{
 					*(per+i)=1;
-					a=i+1;
+					a=1;
 					//printf("PERCOLA de izq a der");
 				}
 			i=i+1;

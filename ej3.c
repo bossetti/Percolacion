@@ -5,15 +5,15 @@
 #include <time.h>
 
 #define P     0.611             // p_c
-#define Z     270          // iteraciones
-#define N     64          // lado de la red simulada
+#define Z     2700          // iteraciones
+#define N     30         // lado de la red simulada
 
 
 int main()
 {
 	
-	int n,na,i,*red,div,z,l,*per,*clusters,max ;
-	float  prob,prom;
+	int n,na,i,*red,div,z,l,*per,*clusters,max,c,prom ;
+	float  prob;
 	z=Z;
 	n=N;
 	
@@ -30,20 +30,19 @@ int main()
 	
 	
 	f = fopen("plot.txt", "w");
-	for ( na=n ; na<65 ; na++ )
+	for ( na=2 ; na<n ; na++ )
 	{
 		prob=pcmedio(na,z,div);
-		printf("prob:%f\n",prob);
+		printf("\nprob:%f\n",prob);
 		red=(int *)malloc(na*na*sizeof(int));
   		clusters=(int *)malloc(na*na*sizeof(int));
 		per=(int *)malloc(na*na*sizeof(int));
 		
-		prom=0;
-						
-			
+		prom=0;						
+		c=0;
 		for(l=0;l<z;l++)
 		{
-		  ns=0;    
+		     
 		      
 	 	  for (i=0;i<na*na;i++)  
 			{
@@ -53,7 +52,8 @@ int main()
 		  llenar(red,na,prob);
 		  //mostra1(red,n,n,"Matriz de partida");
 		  hoshen(red,na);
-		  percolacuenta(red,na,per);
+		  c+=percolacuenta(red,na,per);
+		  
 		  //mostra1(red,na,na,"esta es la red");
 		  //mostra1(per,na,na,"este es per");
 		  contarclusters(red,clusters,na);
@@ -61,17 +61,23 @@ int main()
 		  max=0;
 		  for (i=0;i<na*na;i++)
 		  {
-			if ((*(clusters+i) && *(per+i)) && *(clusters+i)>max) max=*(clusters+i);
+			if ((*(clusters+i) && *(per+i)) && *(clusters+i)>max) 
+			{
+			max=*(clusters+i);
+			//printf("max %i\n",max);
+			}
 		  }   
 			
-			prom+=(float)max/z;
-			printf("Este es paso %i con promedio %i\n",l,max);	  
+			prom+=max;
+			//printf("Este es paso %i con promedio %i\n",l,max);	  
 		    
 		}
 		//printf("Lado = %i M=%f\n",na,prom/(na*na));
 		//fprintf(f,"\n %f \t %f",log(na),log(prom/(na*na)));
-		printf("Lado = %i M=%f\n",na,max/);
-		fprintf(f,"\n %i \t %i",na,max); 
+		printf("\nEste es prom: %f\n",(float)max/(c*na*na));
+		//printf("\nEste es c: %i\n",c);
+		printf("Lado = %i M=%f Mbestia=%f",na,log((float)prom/(c*na*na)),log((float)prom/(z*na*na)));
+		fprintf(f,"\n %f \t %f\t %f",log(na),log((float)prom/(z*na*na)),log((float)prom/(z*na*na))); 
 	
 		
 		

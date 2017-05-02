@@ -39,6 +39,8 @@ void meterneg(int *clase, int start, int nuevo);
 
 float promedio(float *pointe,int  na,int opcion,int inicio,int final);
 
+float promedioi(int *pointe,int  na,int opcion,int inicio,int final);
+
 int percolaofi(int *red,int n);
 
 int chequeorapido(int *red,int n);

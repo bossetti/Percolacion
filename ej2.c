@@ -6,18 +6,18 @@
 
 #define P     16             // 1/2^P, P=16
 #define Z     2700          // iteraciones
-#define N     32           // lado de la red simulada
+#define N     128           // lado de la red simulada
 
 
 int main()
 {
 	
-	int n,na,i,j,div,*red,z,l,*per,*clusters,max ;
+	int n,na,i,j,div,*red,z,l,*per,*clusters,max,c ;
 	float  prob,prom,diff;
 	z=Z;
 	n=N;
 
-	div=100;
+	div=1000;
 	diff=1.0/div;
  	
 	srand(time(NULL));
@@ -26,9 +26,10 @@ int main()
 	FILE *f;
 	
 	
-	f = fopen("plot.txt", "w");
-	for ( na=n ; na<n+1 ; na++ )
-	{
+	f = fopen("plot2.txt", "w");
+	//for ( na=2 ; na<n+1 ; na=na*2 )
+	//{
+	na=n;
 		red=(int *)malloc(na*na*sizeof(int));
   		clusters=(int *)malloc(na*na*sizeof(int));
 		per=(int *)malloc(na*na*sizeof(int));
@@ -40,7 +41,7 @@ int main()
 			prob=prob+diff;
 			prom=0;
 							
-				
+			c=0;	
 			for(l=0;l<z;l++)
 			{
 			      
@@ -53,7 +54,7 @@ int main()
 			  llenar(red,na,prob);
 			  //mostra1(red,n,n,"Matriz de partida");
 			  hoshen(red,na);
-			  percolacuenta(red,na,per);
+			  c+=percolacuenta(red,na,per);
 			  //mostra1(red,na,na,"esta es la red");
 			  //mostra1(per,na,na,"este es per");
 			  contarclusters(red,clusters,na);
@@ -64,12 +65,12 @@ int main()
 					if ((*(clusters+i) && *(per+i)) && *(clusters+i)>max) max=*(clusters+i);
 			  }   
 				
-				prom+=(float)max/z;
+				prom+=(float)max;
 				  
 			    
 			}
-			printf("Prob = %f Max=%f\n",prob,prom/(na*na));
-			fprintf(f,"\n %f \t %f",prob,prom/(na*na));
+			printf("Prob = %f Max=%f Maxbestia=%f\n",prob,prom/(c*na*na),prom/(z*na*na));
+			fprintf(f,"\n %f \t %f\t %f",prob,prom/(c*na*na),prom/(z*na*na));
 			 
 		}
 			
@@ -82,7 +83,7 @@ int main()
 		free(red);
 		free(clusters);
 		free(per);
-	}
+	//}
 	fclose(f);
 	return 0;
 }
