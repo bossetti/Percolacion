@@ -1,0 +1,108 @@
+#include "progfinal.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <time.h>
+
+#define P     16             // 1/2^P, P=16
+#define Z     2700          // iteraciones
+#define N     4           // lado de la red simulada
+
+
+int main()
+{
+	
+	int n,na,i,j,div,*red,z,*per,r,a,l ;
+	float  prob,diff,prom;
+	z=N;
+	n=N;
+	
+	
+	
+	prom=0;//defino un promedio que voy a usar
+
+	div=1000;
+	diff=1.0/div;
+ 	
+	srand(time(NULL));
+
+				      
+	FILE *f;
+	
+	
+	f = fopen("plot.txt", "a");
+	for ( na=n ; na<32 ; na++ )
+	{
+		red=(int *)malloc(na*na*sizeof(int));
+  		per=(int *)malloc(na*na*sizeof(int));
+		for(i=0;i<n*n;i++)
+		{
+			*(per+i)=0;
+		}
+		mostra1(per,n,n,"este es per");
+		for	(j=0;j<4;j++)
+		{
+			prob=0.3;
+			for(r=0;i<div;i++)
+    		{
+				prom=0;
+				
+				prob=prob+diff;
+				for(i=0;i<z;i++)
+				{
+				      //printf("\nEsta es la iteracion :%i",i);
+				      
+				 
+					  llenar(red,na,prob);
+					  //mostra1(red,n,n,"Matriz de partida");
+					  hoshen(red,na);
+					  a=percolacuenta(red,na,per);
+					  mostra1(red,na,na,"esta es la red");
+					  mostra1(per,na,na,"este es per");
+					  if (a) 
+					  {
+							for (r=0;r<na*na;r++)
+							{
+								printf("Comienza medido de fuerza de percolante :tamaño red %i \t iteracion %i \t %i \t %i \t chequeando pos %i \n",na,j,r,i,r+1);
+								mostramostro(red,per,na,na,"asi vamos\n");	
+								for (l=0;l<na*na;l++)
+								{
+									if (*(red+l)&&((*(red+l))&&(*(per+*(red+l)-1)))) 
+									{
+																			
+										 *(per+*(red+l)-1)+=1;
+										
+									}									
+								}
+							}
+					  
+						}
+				      prom=prom+prob;
+				  }
+				  for(i=0;i<na*na;i++)
+					{
+						*(per+i)=0;
+					}
+			}
+			
+			
+			//printf("\n %f \t %f",km,k);
+			//printf ( "\n%.3i  \t %.4f   \n ",na, prob);
+			//fprintf(f,"\n %f \t %f",km,k);
+			
+		}
+		free(red);
+		free(per);
+	}
+	fclose(f);
+	return 0;
+}
+
+
+
+
+  
+  
+
+ 
+

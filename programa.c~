@@ -27,9 +27,6 @@ void etiqueta_falsa(int *red,int *clase, int s1,int s2);
 void  corregir_etiqueta(int *red,int *clase,int n); //recorre la red y va corrigiendo las etiquetas que tienen un menos
 
 int   percola(int *red,int n); //CANCELADA super impractica y no esta funcionando
-
-
-
 int main(int argc,char *argv[])
 {
   int    i,j,*red,n,z;
@@ -45,12 +42,12 @@ int main(int argc,char *argv[])
      }
     
   red=(int *)malloc(n*n*sizeof(int));
-  
+
   prom=0;//defino un promedio que voy a usar
 
   for(i=0;i<z;i++)
     {
-      //printf("\nEsta es la iteracion :%i",i);
+      printf("\nEsta es la iteracion :%i",i);
       prob=0.5;
       denominador=2.0;
  
@@ -75,10 +72,7 @@ int main(int argc,char *argv[])
         }
 	prom=prom+prob;
     }
-  
-  
-	
-  printf ( "%.3f \t %.3f \n", prob, prom/z );
+  printf("\nPromedio final :%f\n",prom/z);
   free(red);
 
   return 0;
@@ -316,7 +310,7 @@ void  corregir_etiqueta(int *red,int *clase,int n)
 		}
 	}
 							
-	//mostra1(red,n,n,"Esta es la matriz final");
+	mostra1(red,n,n,"Esta es la matriz final");
 }
 
 //int quick_etiqueta(int *red,int *clase,int s1,int s2,int *rel)

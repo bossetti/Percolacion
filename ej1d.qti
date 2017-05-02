@@ -1,0 +1,321 @@
+QtiPlot 0.9.8 project file
+<scripting-lang>	muParser
+<windows>	5
+<table>
+Tabla1	30	2	01/05/17 15:26
+geometry	0	0	445	220	
+header	1[X]	2[Y]
+ColWidth	100	100	
+<com>
+</com>
+ColType	0;0/13	0;0/13
+ReadOnlyColumn	0	0
+HiddenColumn	0	0
+Comments			
+WindowLabel		2
+<data>
+</data>
+</table>
+<table>
+plot	64	2	01/05/17 15:27
+geometry	maximized	active
+header	1[Y]	2[X]
+ColWidth	100	100	
+<com>
+</com>
+ColType	0;0/13	0;0/13
+ReadOnlyColumn	0	0
+HiddenColumn	0	0
+Comments			
+WindowLabel	/home/bossetti/progloco/Percolacion/plot.txt	2
+<data>
+17	0.522549	0.378395
+18	0.524912	0.369386
+19	0.527905	0.357081
+20	0.530638	0.344169
+21	0.534092	0.328803
+22	0.537097	0.317902
+23	0.53873	0.306454
+24	0.54114	0.295559
+25	0.542385	0.290321
+26	0.545896	0.280974
+27	0.546855	0.267995
+28	0.548063	0.249216
+29	0.54914	0.2496
+30	0.549222	0.238283
+31	0.551425	0.235173
+32	0.553022	0.232688
+33	0.556236	0.213262
+34	0.557184	0.209886
+35	0.558648	0.207909
+36	0.558262	0.203348
+37	0.559781	0.191858
+38	0.561728	0.188574
+39	0.561904	0.184202
+40	0.562975	0.178298
+41	0.564544	0.17247
+42	0.565174	0.162597
+43	0.565511	0.163164
+44	0.566251	0.157851
+45	0.56656	0.154282
+46	0.567148	0.15243
+47	0.568333	0.14791
+48	0.569071	0.147839
+49	0.56913	0.144503
+50	0.570522	0.13781
+51	0.570611	0.137077
+52	0.570778	0.13242
+53	0.571392	0.133457
+54	0.572249	0.126193
+55	0.572619	0.125455
+56	0.573126	0.12677
+57	0.574275	0.118706
+58	0.573793	0.120392
+59	0.574842	0.114181
+60	0.574786	0.115031
+61	0.574468	0.115363
+62	0.576001	0.108071
+63	0.575771	0.109808
+</data>
+</table>
+<multiLayer>
+Gráfica1	1	1	01/05/17 15:28
+geometry	865	151	545	467	
+WindowLabel		2
+Margins	5	5	5	5
+Spacing	5	5
+LayerCanvasSize	400	300
+Alignement	0	0
+<AlignPolicy>0</AlignPolicy>
+<CommonAxes>0</CommonAxes>
+<graph>
+ggeometry	5	5	527	404
+<PageGeometry>0.00931099	0.0119332	0.981378	0.9642</PageGeometry>
+PlotTitle	Título	#000000	4228
+<Antialiasing>0</Antialiasing>
+<Autoscaling>1</Autoscaling>
+<ScaleFonts>1</ScaleFonts>
+<GridOnTop>0</GridOnTop>
+<MissingDataGap>1</MissingDataGap>
+Background	#ffffff	0
+Margin	0
+Border	0	#000000
+grid	0	0	0	0	#0000ff	0	0.5	#a0a0a4	2	0.4	#0000ff	0	0.5	#a0a0a4	2	0.4	0	0	2	0	0
+EnabledAxes	1	1	1	1	
+AxesTitles	%(?X)	%(?Y)		%(?Y)	
+AxesTitleColors	#000000	#000000	#000000	#000000	
+AxesTitleAlignment	5124	5124	5124	5124
+AxesTitleDistance	2	2	2	2
+InvertedTitle	0	0	0	0
+TitleFont	Ubuntu	13	75	0	0	0
+ScaleFont0	Ubuntu	11	75	0	0	0
+ScaleFont1	Ubuntu	11	75	0	0	0
+ScaleFont2	Ubuntu	11	75	0	0	0
+ScaleFont3	Ubuntu	11	75	0	0	0
+AxisFont0	Ubuntu	11	50	0	0	0
+AxisFont1	Ubuntu	11	50	0	0	0
+AxisFont2	Ubuntu	11	50	0	0	0
+AxisFont3	Ubuntu	11	50	0	0	0
+AxesColors	#000000	#000000	#000000	#000000
+AxesNumberColors	#3c3c3c	#3c3c3c	#3c3c3c	#3c3c3c
+AxesBaseline	0	0	0	0	
+CanvasBackground	#ffffff	0
+curve	plot_2	plot_1	1	0	#000000	0	1	7	1	#000000	#000000	0	#000000	14	1	2	0	0	63	1
+scale	0	0.52	0.58	0	7	5	0	0
+scale	1	0.52	0.58	0	7	5	0	0
+scale	2	0.1	0.4	0	7	5	0	0
+scale	3	0.1	0.4	0	7	5	0	0
+LabelsFormat	0	6	0	6	0	6	0	6
+AxisType	0	0	0	0	
+MajorTicks	1	1	1	1
+MinorTicks	1	1	1	1
+TicksLength	5	9
+DrawAxesBackbone	1	1	1	1	1
+AxesLineWidth	1
+LabelsRotation	0	0	0	0
+LabelsPrefix				
+LabelsSuffix				
+TickLabelsSpace	4	4	4	4
+ShowTicksPolicy	0	0	0	0
+EnabledTickLabels	1	1	1	1
+<Legend>
+<Frame>1</Frame>
+<Color>#000000</Color>
+<FrameWidth>1</FrameWidth>
+<LineStyle>0</LineStyle>
+<x>0.10877192982456</x>
+<y>0.57598662207358</y>
+<right>0.195614035087719</right>
+<bottom>0.564347826086957</bottom>
+<attachTo>1</attachTo>
+<onTop>1</onTop>
+<visible>1</visible>
+<Text>
+\l(1)%(1)
+</Text>
+<Font>Ubuntu	11	50	0	0	0</Font>
+<TextColor>#000000</TextColor>
+<Background>#ffffff</Background>
+<Alpha>0</Alpha>
+<Angle>0</Angle>
+<AutoUpdate>1</AutoUpdate>
+<TeXOutput>0</TeXOutput>
+</Legend>
+</graph>
+<LinkXAxes>0</LinkXAxes>
+<ScaleLayers>1</ScaleLayers>
+</multiLayer>
+<multiLayer>
+Gráfica2	1	1	01/05/17 15:30
+geometry	41	-47	545	467	
+WindowLabel	Linear Regression of plot	2
+Margins	5	5	5	5
+Spacing	5	5
+LayerCanvasSize	400	300
+Alignement	0	0
+<AlignPolicy>0</AlignPolicy>
+<CommonAxes>0</CommonAxes>
+<graph>
+ggeometry	5	5	527	404
+<PageGeometry>0.00931099	0.0119332	0.981378	0.9642</PageGeometry>
+PlotTitle	Título	#000000	4228
+<Antialiasing>0</Antialiasing>
+<Autoscaling>1</Autoscaling>
+<ScaleFonts>1</ScaleFonts>
+<GridOnTop>0</GridOnTop>
+<MissingDataGap>1</MissingDataGap>
+Background	#ffffff	0
+Margin	0
+Border	0	#000000
+grid	0	0	0	0	#0000ff	0	0.5	#a0a0a4	2	0.4	#0000ff	0	0.5	#a0a0a4	2	0.4	0	0	2	0	0
+EnabledAxes	1	1	1	1	
+AxesTitles	%(?X)	%(?Y)		%(?Y)	
+AxesTitleColors	#000000	#000000	#000000	#000000	
+AxesTitleAlignment	5124	5124	5124	5124
+AxesTitleDistance	2	2	2	2
+InvertedTitle	0	0	0	0
+TitleFont	Ubuntu	13	75	0	0	0
+ScaleFont0	Ubuntu	11	75	0	0	0
+ScaleFont1	Ubuntu	11	75	0	0	0
+ScaleFont2	Ubuntu	11	75	0	0	0
+ScaleFont3	Ubuntu	11	75	0	0	0
+AxisFont0	Ubuntu	11	50	0	0	0
+AxisFont1	Ubuntu	11	50	0	0	0
+AxisFont2	Ubuntu	11	50	0	0	0
+AxisFont3	Ubuntu	11	50	0	0	0
+AxesColors	#000000	#000000	#000000	#000000
+AxesNumberColors	#3c3c3c	#3c3c3c	#3c3c3c	#3c3c3c
+AxesBaseline	0	0	0	0	
+CanvasBackground	#ffffff	0
+curve	plot_2	plot_1	2	1	#000000	0	1	7	1	#000000	#000000	0	#000000	14	1	2	0	0	63	1
+<Function>
+<Type>0</Type>
+<Title>LinealAjustar1</Title>
+<Expression>A*x+B</Expression>
+<Variable>x</Variable>
+<Range>0.108071	0.378395</Range>
+<Points>2</Points>
+<Constant>A	-0.191145631657353</Constant>
+<Constant>B	0.59684583771561</Constant>
+<Style>0</Style>
+<LineStyle>1</LineStyle>
+<Pen>
+	<Color>#000000</Color>
+	<Style>0</Style>
+	<Width>1</Width>
+</Pen>
+<xAxis>2</xAxis>
+<yAxis>0</yAxis>
+<CurveType>0</CurveType>
+<Visible>1</Visible>
+</Function>
+scale	0	0.52	0.58	0	7	5	0	0
+scale	1	0.52	0.58	0	7	5	0	0
+scale	2	0.1	0.4	0	7	5	0	0
+scale	3	0.1	0.4	0	7	5	0	0
+LabelsFormat	0	6	0	6	0	6	0	6
+AxisType	0	0	0	0	
+MajorTicks	1	1	1	1
+MinorTicks	1	1	1	1
+TicksLength	5	9
+DrawAxesBackbone	1	1	1	1	1
+AxesLineWidth	1
+LabelsRotation	0	0	0	0
+LabelsPrefix				
+LabelsSuffix				
+TickLabelsSpace	4	4	4	4
+ShowTicksPolicy	0	0	0	0
+EnabledTickLabels	1	1	1	1
+<Legend>
+<Frame>1</Frame>
+<Color>#000000</Color>
+<FrameWidth>1</FrameWidth>
+<LineStyle>0</LineStyle>
+<x>0.10751879699248</x>
+<y>0.57799331103679</y>
+<right>0.181954887218045</right>
+<bottom>0.572173913043478</bottom>
+<attachTo>1</attachTo>
+<onTop>1</onTop>
+<visible>1</visible>
+<Text>
+\l(1)%(1)
+\l(2)%(2)
+</Text>
+<Font>Ubuntu	11	50	0	0	0</Font>
+<TextColor>#000000</TextColor>
+<Background>#ffffff</Background>
+<Alpha>0</Alpha>
+<Angle>0</Angle>
+<AutoUpdate>1</AutoUpdate>
+<TeXOutput>0</TeXOutput>
+</Legend>
+</graph>
+<LinkXAxes>0</LinkXAxes>
+<ScaleLayers>1</ScaleLayers>
+</multiLayer>
+<table>
+Tabla2	1	5	01/05/17 15:30
+geometry	727	115	445	220	
+header	Columna[X]	Slope[Y]	Intercept[Y]	Chi^2[Y]	R^2[Y]
+ColWidth	94	136	131	152	131	
+<com>
+</com>
+ColType	0;0/13	0;0/13	0;0/13	0;0/13	0;0/13
+ReadOnlyColumn	0	0	0	0	0
+HiddenColumn	0	0	0	0	0
+Comments						
+WindowLabel	Linear Regression of plot	2
+<data>
+0	0	-0.1911456316574	0.5968458377156	3.202561925456e-05	0.9969738176176
+</data>
+</table>
+<open>1</open>
+<log>
+[01/05/17 15:29	Gráfica: ''Gráfica2'']
+Regresión Lineal of dataset: plot_1, usando función : A*x+B
+Método de Pesado: Sin pesado
+Desde x = 3,966830000000000e-01 a x = 1,098080000000000e-01
+B (y-intercept) = 6,087916255436543e-01 +/- 2,966105362829873e-03
+A (slope) = -2,600181389514333e-01 +/- 1,046639684991556e-02
+--------------------------------------------------------------------------------------
+Chi^2/doF = 9,687397116148201e-05
+R^2 = 0,910053576375165
+Adjusted R^2 = 0,907055362254338
+RMSE (Root Mean Squared Error) = 0,00984245757732702
+RSS (Residual Sum of Squares) = 0,0059093122408504
+---------------------------------------------------------------------------------------
+[01/05/17 15:30	Gráfica: ''Gráfica2'']
+Regresión Lineal of dataset: plot_1, usando función : A*x+B
+Método de Pesado: Sin pesado
+Desde x = 3,783950000000000e-01 a x = 1,098080000000000e-01
+B (y-intercept) = 5,968458377156098e-01 +/- 3,385679588749427e-04
+A (slope) = -1,911456316573535e-01 +/- 1,569870372205237e-03
+--------------------------------------------------------------------------------------
+Chi^2/doF = 7,116804278790264e-07
+R^2 = 0,996973817617605
+Adjusted R^2 = 0,99683626387295
+RMSE (Root Mean Squared Error) = 0,0008436115384933
+RSS (Residual Sum of Squares) = 3,20256192545565e-05
+---------------------------------------------------------------------------------------
+</log>
