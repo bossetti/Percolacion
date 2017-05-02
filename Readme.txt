@@ -2,7 +2,7 @@ Ignacio Perez Ipiña    425/12
 ipina@qi.fcen.uba.ar 
 hbossetti@gmail.com
 
-Actualizacion 24/3/2017: Mucho mas avanzado, quedan ajustes y cosas, pero la base la tengo, y pude limpiar todos los errores de memoria, y hacer mas rapido el codigo con hoshenquick para los casos donde las etiquetas del cuerpo no es necesario corregir. Lunes pongo a punto los ajustes, gamma-matching, scaling.
+Actualizacion 2/4/2017: Corregi todos los errores serios, tengo resultados razonables, hasta el 3, casi 4. El resto de los ejercicios los terminare.
 
 ¿Que tal?
 
@@ -15,11 +15,22 @@ rama errorbizarr: en un momento quise liberar la memoria de dos pointers de n*n 
 
 Corro siempre desde la rama oficial con:
 
-gcc -Wall -O3 <ejercicio_con_include_progfinal.h> progfinal.c -o ejecuta
-./programa>plot.txt
-o ./programa
+gcc -Wall -O3 <ejercicio_con_include_progfinal.h> progfinal.c -o ejecuta -lm
+
+./programa
 
 y despues ploteo con gnuplot
+o ajusto con QtiPlot
 
 programa.c es el codigo basico, esta un poco atrasado en correcciones al momento
+pero 
+ej1a.c
+ej1b.c
+ej1c.c
+ej1d.c
+ej1dalt.c
+ej2.c
+ej3.c
+
+Corren bien
 
